@@ -9,7 +9,16 @@
 //
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
-//
+//= require jquery.min
+//= require autosize.min
+//= require popper.min
+//= require prism
+//= require draggable.bundle.legacy
+//= require swap-animation
+//= require dropzone.min
+//= require list.min
+//= require bootstrap
+//= require theme
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
