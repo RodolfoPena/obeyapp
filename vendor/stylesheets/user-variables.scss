@@ -3,3 +3,6 @@
 // user-variables.scss
 //
 // Place your own variable overrides here, these will override any Bootstrap and theme variables.
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}
