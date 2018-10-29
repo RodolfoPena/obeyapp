@@ -63,6 +63,7 @@
           <input type="search" class="form-control form-control-light" placeholder="Search" aria-label="Search app" aria-describedby="search-app">
         </div>
       </form>
+      <% if user_signed_in? %>
       <div class="dropdown mx-lg-2">
         <button class="btn btn-outline-success btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           My Obeya
@@ -85,6 +86,9 @@
           </div>
         </div>
       </div>
+      <% else %>
+        <%= link_to 'Sign in', new_user_session_path, class:'btn btn-outline-primary ml-3' %>
+      <% end %>
     </div>
   </div>
 </div>

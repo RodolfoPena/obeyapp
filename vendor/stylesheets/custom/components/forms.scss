@@ -1,5 +1,5 @@
-// 
-// 
+//
+//
 // forms.scss
 //
 //
@@ -16,7 +16,7 @@ form:focus{
 }
 
 .form-control{
-  font-size: .875rem;
+  font-size: 1rem;
   font-weight: $headings-font-weight;
   &:focus{
     border-color: lighten(theme-color('primary'),30%);
@@ -71,7 +71,7 @@ label[class*='col']{
   &:focus-within{
     .input-group-text, .form-control{
       border-color: lighten(theme-color('primary'),30%);
-    } 
+    }
   }
 }
 

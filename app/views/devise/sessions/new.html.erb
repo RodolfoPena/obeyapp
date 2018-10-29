@@ -1,0 +1,35 @@
+<div class="main-container fullscreen">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-5 col-md-6">
+                <div class="text-center">
+                  <%= image_tag 'logo-obeya.png', class:'thumbnail mb-3'%>
+                    <h1 class="h2">Welcome Back</h1>
+                    <p class="lead">Log in to your account to continue</p>
+                    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                        <div class="form-group">
+                          <%= f.email_field :email, autofocus: true, autocomplete: "email", class:'form-control' %>
+                        </div>
+                        <div class="form-group">
+                          <%= f.password_field :password, autocomplete: "current-password", class:'form-control' %>
+
+                          <!-- <% if devise_mapping.rememberable? -%>
+                            <div class="field">
+                              <div class="mt-2">
+                                <%= f.check_box :remember_me, class:'text-left' %>
+                                remember me
+                              </div>
+                            </div>
+                          <% end -%> -->
+                        </div>
+                          <%= f.submit "Log in", class:'btn btn-lg btn-block btn-primary' %>
+                        <small>Don't have an account yet? <a href="#">Create one</a>
+                        </small>
+
+                    <% end %>
+                </div>
+                <%= render "devise/shared/links" %>
+            </div>
+        </div>
+    </div>
+</div>
