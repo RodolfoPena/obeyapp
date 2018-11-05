@@ -1,6 +1,6 @@
-
 <div class="layout layout-nav-top">
   <%= render 'navbar' %>
+  <div class="index">
   <div class="main-container">
     <div class="container">
       <div class="row justify-content-center">
@@ -13,7 +13,7 @@
               <div class="col-md-6 justify-content-between">
                 <div class="row">
                   <div class="col-md-12">
-                    <h3 class="mb-1" style=" font-family:'merriweather' ">Obeya</h3>
+                    <h3 class="mb-1" style=" font-family:'merriweather' ">Obeya<sup>&#174;</sup></h3>
                     <h1 class="display-3 mb-3"> Unlocking Potential </h1>
                     <p class="lead">
                       The first step-by-step application based on Lean Toyota to continuously improve your business performance
@@ -23,17 +23,156 @@
                     </button>
                   </div>
                   <div class="col-md-12">
-                    <small>Don't have an account yet? <a href="#">Create one</a>
+                    <small>Don't have an account yet? <%= link_to 'Create one', new_user_registration_path %></small>
                   </div>
-
                 </div>
-
 
               </div>
             </div>
           </section>
+          <div class="row">
+          </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+  <div class="index">
+    <div class="jumbotron">
+      <div class="container text-center" >
+        <%= image_tag 'obeya2.svg', style: 'width:100%'%>
+        <div class="row align-items-center">
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-4 text-center">
+            <h3 class=""> PDCA Cycle </h3>
+            <p class="lead white">
+              The secret of Toyota's success is based on the continuous improvement, the cycle
+              <span class="badge badge-secondary green-100">Plan</span>
+              <span class="badge badge-secondary green-75">Do</span>
+              <span class="badge badge-secondary green-50">Check</span>
+              <span class="badge badge-secondary green-25">Act</span>
+            </p>
+          </div>
+          <div class="col-md-4">
+            <%= image_tag 'pdca_1.svg', style:'width:80%'%>
+          </div>
+        </div>
+        <section class="pt-4 pb-4 pt-lg-5">
+          <div class="row align-items-center">
+            <div class="offset-md-2 col-md-4 text-center pb-2">
+              <h3 class=""> Obeya Room </h3>
+              <p class="lead">
+                Toyota made visible the process of continuous improvement using a big room - in japanese Obeya -.
+              </p>
+            </div>
+            <div class="col-md-4 my-card">
+              <%= image_tag 'obeyaroom.svg', style:'width:80%'%>
+            </div>
+          </div>
+        </section>
+        <section class="pt-4 pb-4 pt-lg-5">
+      </div>
+
+<%= image_tag 'mountains.svg', style: 'width:100%', class:'text-right'%>
+    </div>
+    </div>
+    <!-- <div class="jumbotron">
+      <div class="container text-center mb-4">
+        <h1 class="display-4">The <span style="color:lightgray">r</span>evolution</h1>
+        <p class="lead"> A revolution based on the work of thousands of people around the world who follows one management philosophy</p>
+          <%= link_to 'Learn more', pages_evolution_path, class: 'btn btn-lg btn-primary'%>
+        <section class="pt-2 pb-2 pt-lg-5">
+          <div class="row align-items-center image-card">
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-4 text-center">
+              <h3 class=""> PDCA Cycle </h3>
+              <p class="lead white">
+                The secret of Toyota's success is based on the continuous improvement, the cycle
+                <span class="badge badge-secondary green-100">Plan</span>
+                <span class="badge badge-secondary green-75">Do</span>
+                <span class="badge badge-secondary green-50">Check</span>
+                <span class="badge badge-secondary green-25">Act</span>
+              </p>
+            </div>
+            <div class="col-md-4">
+              <%= image_tag 'pdca_1.svg', class:''%>
+            </div>
+          </div>
+        </section>
+        <section class="pt-4 pb-4 pt-lg-5">
+          <div class="row align-items-center image-card">
+            <div class="offset-md-2 col-md-4 text-center pb-2">
+              <h3 class=""> Obeya Room </h3>
+              <p class="lead">
+                Toyota made visible the process of continuous improvement using a big room - in japanese Obeya -.
+              </p>
+            </div>
+            <div class="col-md-4 my-card">
+              <%= image_tag 'obeyaroom.svg', class:''%>
+            </div>
+          </div>
+        </section>
+        <section class="pt-4 pb-4 pt-lg-5">
+          <div class="row align-items-center image-card">
+            <div class="offset-md-2 col-md-4 text-center pb-4">
+              <h3 class=""> Obeya Board </h3>
+              <p class="lead">
+                Big companies are using Obeya boards to make visible the process of problem detection and act with speed
+              </p>
+            </div>
+            <div class="col-md-4 my-card">
+              <%= image_tag 'obeyaboard.svg', class:'image-card'%>
+            </div>
+          </div>
+        </section>
+        <section class="pt-4 pb-4 pt-lg-5">
+          <div class="row align-items-right image-card">
+            <div class="offset-md-2 col-md-4 text-center pb-4">
+              <h3 class=""> Obeya App</h3>
+              <p class="lead">
+                And now we want to put the process of continuous improvement in your hands to take action anytime and anywhere
+              </p>
+            </div>
+            <div class="col-md-4 my-card">
+              <%= image_tag 'obeyaapp.svg', class:''%>
+            </div>
+          </div>
+        </section>
+      </div> -->
+    </div>
+    <div class="index">
+
+
+    <div class="main-container">
+      <div class="container">
+        <div class="container text-center mb-4">
+          <h1 class="display-4">Impact</h1>
+          <p class="lead">A business by definition is to create results, Obeya by definition is the way to achieve them</p>
+        </div>
+        <div class="case-studies">
+          <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+              <h4><%= link_to 'Production', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Services', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Board Directors', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Costumer Services', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Human Resources', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Sales', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Marketing', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Finances', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Logistics', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Finances', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'Development', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+              <h4><%= link_to 'IT Support', pages_index_path, class:'btn btn-dark mb-1' %></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  </div>
+  <%= render 'footer'%>
 </div>

@@ -1,0 +1,58 @@
+<div class="layout layout-nav-top">
+  <%= render 'navbar' %>
+  <div class="index">
+  <div class="main-container">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-11">
+          <section class="pt-4 pt-lg-5">
+            <div class="row">
+              <div class="col-md-12 mb-5">
+                <h3 class="mb-1 title">Obeya Global<sup>&#174;</sup></h3>
+                <h1 class="display-3"> Democratizing Consulting </h1>
+                <p class="lead">
+                  Anyone can be a consultant, front-line workers know the problems, costumers need to solve them
+                </p>
+                <%= link_to pages_obeya_global_path, class:"btn btn-primary" do %>
+                Learn more
+                <% end %>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <%= image_tag 'obeyaapp.svg', class:'mb-3' %>
+                    <h4 class="card-title">Obeya Digital</h4>
+                    <p class="card-text">Work with a native management platform and show us what you can do</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <%= image_tag 'obeyaapp.svg', class:'mb-3' %>
+                    <h4 class="card-title">Obeya Academy</h4>
+                    <p class="card-text">Pass the certification process to be able as trainee, coach or mentor</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card">
+                  <div class="card-body">
+                    <%= image_tag 'obeyaapp.svg', class:'mb-3' %>
+                    <h4 class="card-title">Obeya Work</h4>
+                    <p class="card-text">Access to our data-base with thousands of different costumer needs</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <%= render 'footer'%>
+</div>
