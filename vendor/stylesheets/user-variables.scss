@@ -22,7 +22,12 @@ input:-webkit-autofill {
 }
 // Some CSSs for index pages
 
+$finalHeight: 100vh;
+$finalWidth: 3*$finalHeight;
+$scrollBarHeight: 1px;
+
 .index {
+
   .image-card {
     background-color: #71C1A7;
     padding:5%;
