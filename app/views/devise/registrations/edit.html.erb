@@ -1,43 +1,415 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+
+<div class="layout layout-nav-top">
+  <div class="main-container">
+    <div class="breadcrumb-bar navbar bg-white sticky-top">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <%= link_to 'Home', pages_index_path, class:'breadcrumb-item' %>
+          <%= link_to 'Account Settings', pages_index_path, class:'breadcrumb-item active' %>
+        </ol>
+
+      </nav>
+      <%= link_to 'Go To Obeya', pages_index_path, class:'btn btn-outline-dark navbar-text' %>
+    </div>
+    <div class="container">
+      <div class="row justify-content-center mt-5">
+        <div class="col-lg-3 mb-3">
+          <ul class="nav nav-tabs flex-lg-column">
+            <li class="nav-item">
+              <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Your Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="password-tab" data-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">Password</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="notifications-tab" data-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">Email Notifications</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="billing-tab" data-toggle="tab" href="#billing" role="tab" aria-controls="billing" aria-selected="false">Billing Details</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="integrations-tab" data-toggle="tab" href="#integrations" role="tab" aria-controls="integrations" aria-selected="false">Integrations</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-xl-8 col-lg-9">
+          <div class="card">
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="tab-pane fade show active" role="tabpanel" id="profile" aria-labelledby="profile-tab">
+                  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                  <%= devise_error_messages! %>
+                  <div class="media mb-4">
+                    <%= image_tag current_user.avatar, alt:"Image", class:"avatar avatar-lg" %>
+                    <div class="media-body ml-3">
+                      <div class="custom-file custom-file-naked d-block mb-1">
+                        <%= f.file_field :avatar, class:'custom-file-input d-none', id:'avatar-file' %>
+                        <input type="file" class="custom-file-input d-none" id="avatar-file">
+                        <label class="custom-file-label position-relative" for="avatar-file">
+                          <span class="btn btn-primary">
+                            Upload avatar
+                          </span>
+                        </label>
+                      </div>
+                      <small>For best results, use an image at least 256px by 256px in either .jpg or .png format</small>
+                    </div>
+                  </div>
+                  <!--end of avatar-->
+                  <form>
+                    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+                    <% end %>
+                    <div class="form-group row align-items-center">
+                      <label class="col-3">First name</label>
+                      <div class="col">
+                        <%= f.text_field :first_name, placeholder:'First name', class:"form-control"  %>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label class="col-3">Last Name</label>
+                      <div class="col">
+                        <%= f.text_field :last_name, placeholder:'Last name', class:"form-control"  %>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label class="col-3">Email</label>
+                      <div class="col">
+                        <%= f.email_field :email, placeholder:'Enter your email address', name:"profile-email", class:"form-control"  %>
+                      </div>
+                    </div>
+                    <div class="form-group row align-items-center">
+                      <label class="col-3">Location</label>
+                      <div class="col">
+                        <%= f.text_field :location, placeholder:'Enter your location', class:"form-control"  %>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-3">Bio</label>
+                      <div class="col">
+                        <%= f.text_area :bio, placeholder:'Tell us a little about yourself', class:"form-control"  %>
+                        <small>This will be displayed on your public profile</small>
+                      </div>
+                    </div>
+                    <div class="row justify-content-end">
+                      <%= f.submit "Save", class:'btn btn-primary'  %>
+                    </div>
+
+                  </form>
+                  <% end %>
+                </div>
+                <div class="tab-pane fade" role="tabpanel" id="password" aria-labelledby="password-tab">
+                  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                  <%= devise_error_messages! %>
+                  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                  <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+                  <% end %>
+                  <div class="form-group row align-items-center">
+                    <label class="col-3">Current Password</label>
+                    <div class="col">
+                      <%= f.password_field :current_password, placeholder:"Enter your current password", class:"form-control" %>
+                    </div>
+                  </div>
+                  <div class="form-group row align-items-center">
+                    <label class="col-3">New Password</label>
+                    <div class="col">
+                      <%= f.password_field :password,placeholder:"Enter a new password", class:"form-control" %>
+                      <% if @minimum_password_length %>
+                      <small>Password must be at least <%= @minimum_password_length %> characters long</small>
+                      <% end %>
+
+                    </div>
+                  </div>
+                  <div class="form-group row align-items-center">
+                    <label class="col-3">Confirm Password</label>
+                    <div class="col">
+                      <%= f.password_field :password_confirmation, placeholder:"Confirm your new password", class:"form-control"%>
+                    </div>
+                  </div>
+                  <div class="row justify-content-end">
+                    <%= f.submit "Update", class:"btn btn-primary"  %>
+                  </div>
+                  <% end %>
+                </div>
+                <div class="tab-pane fade" role="tabpanel" id="notifications" aria-labelledby="notifications-tab">
+                  <form>
+                    <h6>Activity Notifications</h6>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox custom-checkbox-switch">
+                        <input type="checkbox" class="custom-control-input" id="notify-1" checked>
+                        <label class="custom-control-label" for="notify-1">Someone assigns me to a task</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox custom-checkbox-switch">
+                        <input type="checkbox" class="custom-control-input" id="notify-2" checked>
+                        <label class="custom-control-label" for="notify-2">Someone mentions me in a conversation</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox custom-checkbox-switch">
+                        <input type="checkbox" class="custom-control-input" id="notify-3" checked>
+                        <label class="custom-control-label" for="notify-3">Someone adds me to a project</label>
+                      </div>
+                    </div>
+                    <div class="form-group mb-md-4">
+                      <div class="custom-control custom-checkbox custom-checkbox-switch">
+                        <input type="checkbox" class="custom-control-input" id="notify-4">
+                        <label class="custom-control-label" for="notify-4">Activity on a project I am a member of</label>
+                      </div>
+                    </div>
+                    <h6>Service Notifications</h6>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox custom-checkbox-switch">
+                        <input type="checkbox" class="custom-control-input" id="notify-5">
+                        <label class="custom-control-label" for="notify-5">Monthly newsletter</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox custom-checkbox-switch">
+                        <input type="checkbox" class="custom-control-input" id="notify-6" checked>
+                        <label class="custom-control-label" for="notify-6">Major feature enhancements</label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox custom-checkbox-switch">
+                        <input type="checkbox" class="custom-control-input" id="notify-7">
+                        <label class="custom-control-label" for="notify-7">Minor updates and bug fixes</label>
+                      </div>
+                    </div>
+                    <div class="row justify-content-end">
+                      <button type="submit" class="btn btn-primary">Save preferences</button>
+                    </div>
+                  </form>
+                </div>
+                <div class="tab-pane fade" role="tabpanel" id="billing" aria-labelledby="billing-tab">
+                  <form>
+                    <h6>Plan Details</h6>
+                    <div class="card text-center">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col">
+                            <div class="mb-4">
+                              <h6>Free</h6>
+                              <h5 class="display-4 d-block mb-2 font-weight-normal">$0</h5>
+                              <span class="text-muted text-small">Per User / Per Month</span>
+                            </div>
+                            <ul class="list-unstyled">
+                              <li>
+                                Unlimited projects
+                              </li>
+                              <li>
+                                1 team
+                              </li>
+                              <li>
+                                4 team members
+                              </li>
+                            </ul>
+                            <div class="custom-control custom-radio d-inline-block">
+                              <input type="radio" id="plan-radio-1" name="customRadio" class="custom-control-input">
+                              <label class="custom-control-label" for="plan-radio-1"></label>
+                            </div>
+                          </div>
+                          <div class="col">
+                            <div class="mb-4">
+                              <h6>Pro</h6>
+                              <h5 class="display-4 d-block mb-2 font-weight-normal">$10</h5>
+                              <span class="text-muted text-small">Per User / Per Month</span>
+                            </div>
+                            <ul class="list-unstyled">
+                              <li>
+                                Unlimited projects
+                              </li>
+                              <li>
+                                Unlmited teams
+                              </li>
+                              <li>
+                                Unlimited team members
+                              </li>
+                            </ul>
+                            <div class="custom-control custom-radio d-inline-block">
+                              <input type="radio" id="plan-radio-2" name="customRadio" class="custom-control-input" checked>
+                              <label class="custom-control-label" for="plan-radio-2"></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <form class="mt-4">
+                    <h6>Payment Method</h6>
+
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-auto">
+                            <div class="custom-control custom-radio d-inline-block">
+                              <input type="radio" id="method-radio-1" name="payment-method" class="custom-control-input" checked>
+                              <label class="custom-control-label" for="method-radio-1"></label>
+                            </div>
+                          </div>
+                          <div class="col-auto">
+                            <!-- <img alt="Image" src="assets/img/logo-payment-visa.svg" class="avatar rounded-0" /> -->
+                          </div>
+                          <div class="col d-flex align-items-center">
+                            <span>•••• •••• •••• 8372</span>
+                            <small class="ml-2">Exp: 06/21</small>
+                          </div>
+                          <div class="col-auto">
+                            <button class="btn btn-sm btn-danger">
+                              Remove Card
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-auto">
+                            <div class="custom-control custom-radio d-inline-block">
+                              <input type="radio" id="method-radio-2" name="payment-method" class="custom-control-input">
+                              <label class="custom-control-label" for="method-radio-2"></label>
+                            </div>
+                          </div>
+                          <div class="col-auto">
+                            <!-- <img alt="Image" src="assets/img/logo-payment-amex.svg" class="avatar rounded-0" /> -->
+                          </div>
+                          <div class="col d-flex align-items-center">
+                            <span>•••• •••• •••• 9918</span>
+                            <small class="ml-2">Exp: 02/20</small>
+                          </div>
+                          <div class="col-auto">
+                            <button class="btn btn-sm btn-danger">
+                              Remove Card
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-auto">
+                            <div class="custom-control custom-radio d-inline-block">
+                              <input type="radio" id="method-radio-3" name="payment-method" class="custom-control-input">
+                              <label class="custom-control-label" for="method-radio-3"></label>
+                            </div>
+                          </div>
+                          <div class="col-auto">
+                            <!-- <img alt="Image" src="assets/img/logo-payment-paypal.svg" class="avatar rounded-0" /> -->
+                          </div>
+                          <div class="col d-flex align-items-center">
+                            <span>david.whittaker@pipeline.io</span>
+
+                          </div>
+                          <div class="col-auto">
+                            <button class="btn btn-sm btn-primary">
+                              Manage account
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+                <div class="tab-pane fade" role="tabpanel" id="integrations" aria-labelledby="integrations-tab">
+
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <div class="media align-items-center">
+                            <!-- <img alt="Image" src="assets/img/logo-integration-slack.svg" /> -->
+                            <div class="media-body ml-2">
+                              <span class="h6 mb-0 d-block">Slack</span>
+                              <span class="text-small text-muted">Permissions: Read, Write, Comment</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <button class="btn btn-sm btn-danger">
+                            Revoke
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <div class="media align-items-center">
+                            <!-- <img alt="Image" src="assets/img/logo-integration-dropbox.svg" /> -->
+                            <div class="media-body ml-2">
+                              <span class="h6 mb-0 d-block">Dropbox</span>
+                              <span class="text-small text-muted">Permissions: Read, Write, Upload</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <button class="btn btn-sm btn-danger">
+                            Revoke
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <div class="media align-items-center">
+                            <!-- <img alt="Image" src="assets/img/logo-integration-drive.svg" /> -->
+                            <div class="media-body ml-2">
+                              <span class="h6 mb-0 d-block">Google Drive</span>
+                              <span class="text-small text-muted">Permissions: Read, Write</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <button class="btn btn-sm btn-danger">
+                            Revoke
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <div class="media align-items-center">
+                            <!-- <img alt="Image" src="assets/img/logo-integration-trello.svg" /> -->
+                            <div class="media-body ml-2">
+                              <span class="h6 mb-0 d-block">Trello</span>
+                              <span class="text-small text-muted">Permissions: Read, Write</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <button class="btn btn-sm btn-danger">
+                            Revoke
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+</div>
