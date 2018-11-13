@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  team: one
+  rails: MyString
+  routes: MyString
+
+two:
+  user: two
+  team: two
+  rails: MyString
+  routes: MyString

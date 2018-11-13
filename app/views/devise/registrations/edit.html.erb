@@ -42,7 +42,7 @@
                   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
                   <%= devise_error_messages! %>
                   <div class="media mb-4">
-                    <%= image_tag current_user.avatar, alt:"Image", class:"avatar avatar-lg" %>
+                    <%= image_tag user_avatar(current_user.id), class:'avatar avatar-lg' %>
                     <div class="media-body ml-3">
                       <div class="custom-file custom-file-naked d-block mb-1">
                         <%= f.file_field :avatar, class:'custom-file-input d-none', id:'avatar-file' %>

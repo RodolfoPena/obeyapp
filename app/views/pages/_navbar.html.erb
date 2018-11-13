@@ -62,14 +62,15 @@
         <% if user_signed_in? %>
         <div class="dropdown ml-3">
           <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <% if current_user.avatar.attached? %>
-              <%= current_user.first_name %>
-              <%= image_tag current_user.avatar, class: 'avatar' %> <br>
-            <% end %>
+            <%= current_user.first_name %>
+
+              <%= image_tag user_avatar(current_user.id), class:'avatar' %>
+
+
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <div class="burger-profile">
-              <a href="nav-side-user.html" class="dropdown-item">My Obeya</a>
+              <%= link_to 'My Obeya', teams_path , class:'dropdown-item' %>
               <%= link_to 'Account Settings', edit_user_registration_path, class:'dropdown-item' %>
               <%= link_to 'Log out', destroy_user_session_path, class:'dropdown-item', method: :DELETE %>
             </div>

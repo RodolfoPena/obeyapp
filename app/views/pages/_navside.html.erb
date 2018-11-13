@@ -127,10 +127,10 @@
     <div class="d-none d-lg-block">
         <div class="dropup">
             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <%= image_tag current_user.avatar, class:'avatar'%>
+              <%= image_tag user_avatar(current_user.id), class:'avatar' %>
 
             </a>
-            <%= current_user.email%>
+            <%= current_user.first_name %>
             <div class="dropdown-menu">
                 <a href="<%= edit_user_registration_path(current_user.id)%>" class="dropdown-item">Profile</a>
                 <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a>
