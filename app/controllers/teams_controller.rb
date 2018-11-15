@@ -4,6 +4,7 @@ class TeamsController < ApplicationController
   def index
     @teams = Team.all
     @team = Team.new
+    @users =  User.all
   end
 
   def new

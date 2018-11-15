@@ -3,11 +3,7 @@
 one:
   user: one
   team: one
-  rails: MyString
-  routes: MyString
 
 two:
   user: two
   team: two
-  rails: MyString
-  routes: MyString

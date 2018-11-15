@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_230708) do
+ActiveRecord::Schema.define(version: 2018_11_15_224005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 2018_11_11_230708) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "members", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "team_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_members_on_team_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -57,9 +66,23 @@ ActiveRecord::Schema.define(version: 2018_11_11_230708) do
     t.string "last_name"
     t.string "location"
     t.text "bio"
+    t.boolean "email_confirmed", default: false
+    t.string "confirm_token"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.integer "sign_in_count", default: 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "members", "teams"
+  add_foreign_key "members", "users"
   add_foreign_key "teams", "users"
 end
