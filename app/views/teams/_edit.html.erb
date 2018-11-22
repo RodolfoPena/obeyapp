@@ -1,8 +1,8 @@
-<%= form_with model: @team, url: teams_path , remote: true,  class: "modal fade", id: "team-add-modal", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-add-modal", 'aria-hidden': "true" do |f| %>
+<%= form_with model: @team, url: edit_team_path(:team) , remote: true,  class: "modal fade", id: "team-edit-modal", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-edit-modal", 'aria-hidden': "true" do |f| %>
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">New Obeya</h5>
+      <h5 class="modal-title"><%= @team.name %></h5>
       <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
         <i class="material-icons">close</i>
       </button>
@@ -19,7 +19,7 @@
     <div class="modal-body">
       <div class="tab-content">
         <div class="tab-pane fade show active" id="team-add-details" role="tabpanel" aria-labelledby="team-add-details-tab">
-          <h6>Obeya Details</h6>
+          <h6>Obeya details</h6>
           <div class="form-group row align-items-center">
             <label class="col-3">Name</label>
             <%= f.text_field :name, class: "form-control col", placeholder:"Obeya name"%>
@@ -49,7 +49,7 @@
             </div>
             <div class="form-group-users">
 
-              <% @users.each do |user| %>
+              <% @team.user_members.each do |user| %>
 
               <div class="custom-checkbox">
                 <%= f.check_box :member_ids,{:class => 'custom-control', multiple: true }, user.id, nil %>

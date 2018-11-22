@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :teams, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+  resources :teams
+  
   get 'pages/index'
   get 'pages/prices'
   get 'pages/evolution'

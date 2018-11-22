@@ -9,4 +9,9 @@ module ApplicationHelper
     end
   end
 
+  def user_name(user_id)
+    user = User.find(user_id)
+    user.first_name
+  end
+
 end

@@ -84,7 +84,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                           <%= link_to 'Show', team_path(team), class:'dropdown-item'%>
-                          <%= link_to 'Edit', edit_team_path(team.id), class:'dropdown-item'%>
+                          <%= link_to 'Edit', edit_team_path(team.id), remote: true, class:'dropdown-item', data: {toggle:'modal', target:'#team-edit-modal'} %>
                           <div class="dropdown-divider"></div>
                           <%= link_to 'Delete', team_path(team.id), class:'dropdown-item text-danger', method: :delete%>
                           <a class="dropdown-item text-danger" href="#">Leave Team</a>
@@ -97,11 +97,13 @@
                         <span><%= team.description %></span>
                       </div>
                       <ul class="avatars">
+                        <% team.members.each do |member|%>
                         <li>
-                          <a href="#" data-toggle="tooltip" title="<%= current_user.first_name %>">
-                            <%= image_tag user_avatar(current_user.id), class:'avatar' %>
+                          <a href="#" data-toggle="tooltip" title="<%= user_name(member.user_id) %>">
+                            <%= image_tag user_avatar(member.user_id), class:'avatar' %>
                           </a>
                         </li>
+                        <% end %>
                       </ul>
                     </div>
                   </div>
@@ -1108,6 +1110,7 @@
             <!--end of tab-->
           </div>
             <%= render 'new' %>
+            <%= render partial: 'edit' %>
         </div>
       </div>
     </div>

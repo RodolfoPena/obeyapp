@@ -4,7 +4,7 @@ class TeamsController < ApplicationController
   def index
     @teams = Team.all
     @team = Team.new
-    @users =  User.all
+    @users = User.all
   end
 
   def new
@@ -14,13 +14,17 @@ class TeamsController < ApplicationController
   def create
     @team = Team.new(team_params)
     @team.user = current_user
+    users = User.find(params[:team][:member_ids].each(&:to_i))
+    users.each do |user|
+      @team.user_members << user
+    end
     respond_to do |format|
       if @team.save
         format.html { redirect_to teams_path, notice: 'Team was successfully created'}
         format.json { render json: @team, status: :created, location: @team }
       else
-        format.html { redirect_to new_team_path, alert: 'Impossible' }
-        format.json { render json @team.errors, status: :unprocessable_entity }
+        format.html { redirect_to new_team_path, alert: 'Error terrible compadre!'}
+        format.json { render json: @team.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -41,9 +45,12 @@ class TeamsController < ApplicationController
 
   def destroy
     @team = Team.find(params[:id])
+    @team.members.each do |member|
+      member.destroy
+    end
     @team.destroy
     respond_to do |format|
-      format.html { redirect_to teams_path, notice: 'Team was successfully destroyed.' }
+      format.html { redirect_to teams_path, notice: 'Team was successfully destroyed.'}
       format.json { head :no_content }
     end
   end
@@ -53,5 +60,9 @@ class TeamsController < ApplicationController
   def team_params
     params.require(:team).permit(:name, :description)
   end
+
+  # def member_ids
+  #   params.require(:team).permit(member_ids: [])
+  # end
 
 end
