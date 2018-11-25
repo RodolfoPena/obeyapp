@@ -84,7 +84,8 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                           <%= link_to 'Show', team_path(team), class:'dropdown-item'%>
-                          <%= link_to 'Edit', edit_team_path(team.id), remote: true, class:'dropdown-item', data: {toggle:'modal', target:'#team-edit-modal'} %>
+
+                          <%= link_to 'Edit', edit_team_path(team), remote: true, class:'dropdown-item', data: {toggle:'modal', target:'#team-edit-modal', remote: edit_team_path(team)} %>
                           <div class="dropdown-divider"></div>
                           <%= link_to 'Delete', team_path(team.id), class:'dropdown-item text-danger', method: :delete%>
                           <a class="dropdown-item text-danger" href="#">Leave Team</a>
@@ -1110,7 +1111,7 @@
             <!--end of tab-->
           </div>
             <%= render 'new' %>
-            <%= render partial: 'edit' %>
+            <%= render partial: 'edit', locals: { team: @team } %>
         </div>
       </div>
     </div>

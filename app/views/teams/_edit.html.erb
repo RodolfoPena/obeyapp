@@ -1,8 +1,8 @@
-<%= form_with model: @team, url: edit_team_path(:team) , remote: true,  class: "modal fade", id: "team-edit-modal", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-edit-modal", 'aria-hidden': "true" do |f| %>
+<%= form_with model: @team , remote: true,  class: "modal fade", id: "team-edit-modal", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-edit-modal", 'aria-hidden': "true" do |f| %>
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title"><%= @team.name %></h5>
+      <h5 class="modal-title">Edit Obeya</h5>
       <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
         <i class="material-icons">close</i>
       </button>
@@ -10,26 +10,26 @@
     <!--end of modal head-->
     <ul class="nav nav-tabs nav-fill">
       <li class="nav-item">
-        <a class="nav-link active" id="team-add-details-tab" data-toggle="tab" href="#team-add-details" role="tab" aria-controls="team-add-details" aria-selected="true">Details</a>
+        <a class="nav-link active" id="team-edit-details-tab" data-toggle="tab" href="#team-edit-details" role="tab" aria-controls="team-edit-details" aria-selected="true">Details</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="team-add-members-tab" data-toggle="tab" href="#team-add-members" role="tab" aria-controls="team-add-members" aria-selected="false">Members</a>
+        <a class="nav-link" id="team-edit-members-tab" data-toggle="tab" href="#team-edit-members" role="tab" aria-controls="team-edit-members" aria-selected="false">Members</a>
       </li>
     </ul>
     <div class="modal-body">
       <div class="tab-content">
-        <div class="tab-pane fade show active" id="team-add-details" role="tabpanel" aria-labelledby="team-add-details-tab">
+        <div class="tab-pane fade show active" id="team-edit-details" role="tabpanel" aria-labelledby="team-edit-details-tab">
           <h6>Obeya details</h6>
           <div class="form-group row align-items-center">
             <label class="col-3">Name</label>
-            <%= f.text_field :name, class: "form-control col", placeholder:"Obeya name"%>
+            <%= f.text_field :name, class: "form-control col", placeholder:"Obeya name", id: "team_name_edit"%>
           </div>
           <div class="form-group row">
             <label class="col-3">Description</label>
-            <%= f.text_area :description, class: "form-control col", placeholder:"Description", rows:'3'%>
+            <%= f.text_area :description, class: "form-control col", placeholder:"Description", rows:'3', id:"team_description_edit"%>
           </div>
         </div>
-        <div class="tab-pane fade" id="team-add-members" role="tabpanel" aria-labelledby="team-add-members-tab">
+        <div class="tab-pane fade" id="team-edit-members" role="tabpanel" aria-labelledby="team-edit-members-tab">
           <div class="users-manage" data-filter-list="form-group-users">
             <div class="mb-3">
               <ul class="avatars text-center">
