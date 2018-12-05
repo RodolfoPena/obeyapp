@@ -35,10 +35,18 @@ class TeamsController < ApplicationController
 
   def edit
     @team = Team.find(params[:id])
+    # respond_to do |format|
+    #   format.js {render 'team/edit'}
+    # end
   end
 
   def update
     @team = Team.find(params[:id])
+    users = User.find(params[:team][:member_ids].each(&:to_i))
+    @team.user_members.destroy_all
+    users.each do |user|
+      @team.user_members << user
+    end
     @team.update(team_params)
     redirect_to teams_path
   end

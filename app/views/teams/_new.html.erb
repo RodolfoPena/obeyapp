@@ -52,7 +52,7 @@
               <% @users.each do |user| %>
 
               <div class="custom-checkbox">
-                <%= f.check_box :member_ids,{:class => 'custom-control', multiple: true }, user.id, nil %>
+                <%= f.check_box :member_ids, {class: 'custom-control', multiple: true }, user.id, nil %>
                 <label class="custom-control-label" for="<%= user.id %>">
                   <div class="d-flex align-items-center">
                     <%= image_tag user_avatar(user.id), class:'avatar mr-2' %>
