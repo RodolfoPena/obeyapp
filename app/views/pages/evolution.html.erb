@@ -1,5 +1,5 @@
 <div class="layout layout-nav-top">
-  <%= render 'navbar' %>
+  <%= render 'shared/navbar' %>
   <div class="main-container">
     <div class="container">
       <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -13,8 +13,8 @@
               <div class="offset-md-2 col-md-4 my-2">
                 <%= image_tag 'pdca_1.svg', style:'width:100%'%>
               </div>
-              <div class="col-md-4 text-left pl-2">
-                <p class="number-circle">1</p>
+              <div class="col-md-4 text-left pl-2 align-content-center">
+                <!-- <p class="number-circle">1</p> -->
                 <h3 class=""> PDCA Cycle </h3>
                 <p class="lead">
                   Plan to set targets
@@ -71,7 +71,7 @@
                 </p>
               </div>
               <div class="col-md-4 text-left">
-                <%= image_tag 'obeya-app.svg', style:'width:100%', class:'pl-2'%>
+                <%= image_tag 'obeyaapp.svg', style:'width:100%', class:'pl-2'%>
               </div>
             </div>
           </section>
@@ -81,4 +81,4 @@
   </div>
 
 </div>
-<%= render 'footer' %>
+<%= render 'shared/footer' %>

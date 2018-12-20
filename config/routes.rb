@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   resources :teams
-  
+  resources :targets
+  resources :commitments
+
   get 'pages/index'
   get 'pages/prices'
   get 'pages/evolution'

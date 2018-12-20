@@ -1,0 +1,161 @@
+<div class="layout layout-nav-side">
+  <div class="main-container">
+    <div class="navbar bg-white breadcrumb-bar">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Obeyas</a>
+          <li class="breadcrumb-item active" aria-current="page">Team</li>
+        </ol>
+      </nav>
+      <div class="dropdown">
+        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons">settings</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-manage-modal">Edit Team</a>
+          <a class="dropdown-item" href="#">Share</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="#">Leave</a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-11 col-xl-10">
+          <div class="page-header">
+            <h1><%= team.name %></h1>
+            <p class="lead"><%= team.description %></p>
+            <div class="d-flex align-items-center">
+              <ul class="avatars">
+                <% team.user_members do |member|%>
+                <li>
+                  <a href="#" data-toggle="tooltip" data-placement="top" title="Claire Connors">
+                    <%= image_tag %>
+                  </a>
+                </li>
+              </ul>
+              <button class="btn btn-round" data-toggle="modal" data-target="#user-invite-modal">
+                <i class="material-icons">add</i>
+              </button>
+            </div>
+          </div>
+          <hr>
+          <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="true">Targets</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="projects" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="content-list-body">
+              <div class="content-list">
+                <div class="row content-list-head">
+                  <div class="col-auto">
+                    <h3>Targets</h3>
+                    <button class="btn btn-round" data-toggle="modal" data-target="#project-add-modal">
+                      <i class="material-icons">add</i>
+                    </button>
+                  </div>
+                  <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">filter_list</i>
+                        </span>
+                      </div>
+                      <input type="search" class="form-control filter-list-input" placeholder="Filter projects" aria-label="Filter Projects" aria-describedby="filter-projects">
+                    </div>
+                  </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body row">
+                  <div class="col-lg-6">
+                    <div class="card card-project">
+                      <div class="progress">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <div class="card-body">
+                        <div class="dropdown card-options">
+                          <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">Share</a>
+                          </div>
+                        </div>
+                        <div class="card-title">
+                          <a href="#">
+                            <h5 data-filter-by="text">New Website</h5>
+                          </a>
+                        </div>
+                        <ul class="avatars">
+                          <li>
+                            <a href="#" data-toggle="tooltip" title="Kenny">
+                              <img alt="Kenny Tran" class="avatar" src="assets/img/avatar-male-6.jpg" data-filter-by="alt" />
+                            </a>
+                          </li>
+                        </ul>
+                        <div class="card-meta d-flex justify-content-between">
+                          <div class="d-flex align-items-center">
+                            <i class="material-icons mr-1">playlist_add_check</i>
+                            <span class="text-small">6/10</span>
+                          </div>
+                          <span class="text-small" data-filter-by="text">Due 4 days</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--end of content list body-->
+              </div>
+              <!--end of content list-->
+            </div>
+            <!--end of tab-->
+            <div class="tab-pane fade" id="members" role="tabpanel" aria-labelledby="members-tab" data-filter-list="content-list-body">
+              <div class="content-list">
+                <div class="row content-list-head">
+                  <div class="col-auto">
+                    <h3>Members</h3>
+                    <button class="btn btn-round" data-toggle="modal" data-target="#user-invite-modal">
+                      <i class="material-icons">add</i>
+                    </button>
+                  </div>
+                  <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">filter_list</i>
+                        </span>
+                      </div>
+                      <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
+                    </div>
+                  </form>
+                </div>
+                <!--end of content list head-->
+                <div class="content-list-body row">
+                  <div class="col-6">
+                    <a class="media media-member" href="#">
+                      <img alt="Claire Connors" src="assets/img/avatar-female-1.jpg" class="avatar avatar-lg" />
+                      <div class="media-body">
+                        <h6 class="mb-0" data-filter-by="text">Claire Connors</h6>
+                        <span data-filter-by="text" class="text-body">Administrator</span>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!--end of content list-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-round btn-floating btn-lg" type="button" data-toggle="collapse" data-target="#floating-chat" aria-expanded="false" aria-controls="sidebar-floating-chat">
+      <i class="material-icons">chat_bubble</i>
+      <i class="material-icons">close</i>
+    </button>
+  </div>
+</div>

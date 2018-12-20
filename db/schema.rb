@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_15_224005) do
+ActiveRecord::Schema.define(version: 2018_12_10_184304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,25 @@ ActiveRecord::Schema.define(version: 2018_11_15_224005) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "commitments", force: :cascade do |t|
+    t.string "action"
+    t.text "conditions_of_satisfaction"
+    t.date "start_date"
+    t.date "due_date"
+    t.date "renegotiation_date"
+    t.date "closing_date"
+    t.boolean "critical"
+    t.boolean "deliverable"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "target_id"
+    t.bigint "responsible_id"
+    t.index ["responsible_id"], name: "index_commitments_on_responsible_id"
+    t.index ["target_id"], name: "index_commitments_on_target_id"
+    t.index ["user_id"], name: "index_commitments_on_user_id"
+  end
+
   create_table "members", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "team_id"
@@ -43,6 +62,21 @@ ActiveRecord::Schema.define(version: 2018_11_15_224005) do
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_members_on_team_id"
     t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "targets", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.date "start_date"
+    t.date "due_date"
+    t.bigint "team_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "responsible_id"
+    t.index ["responsible_id"], name: "index_targets_on_responsible_id"
+    t.index ["team_id"], name: "index_targets_on_team_id"
+    t.index ["user_id"], name: "index_targets_on_user_id"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -82,7 +116,11 @@ ActiveRecord::Schema.define(version: 2018_11_15_224005) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "commitments", "targets"
+  add_foreign_key "commitments", "users"
   add_foreign_key "members", "teams"
   add_foreign_key "members", "users"
+  add_foreign_key "targets", "teams"
+  add_foreign_key "targets", "users"
   add_foreign_key "teams", "users"
 end

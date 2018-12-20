@@ -5,6 +5,8 @@ class TeamsController < ApplicationController
     @teams = Team.all
     @team = Team.new
     @users = User.all
+    @target = Target.new
+    @commitment = Commitment.new
   end
 
   def new
@@ -53,9 +55,6 @@ class TeamsController < ApplicationController
 
   def destroy
     @team = Team.find(params[:id])
-    @team.members.each do |member|
-      member.destroy
-    end
     @team.destroy
     respond_to do |format|
       format.html { redirect_to teams_path, notice: 'Team was successfully destroyed.'}

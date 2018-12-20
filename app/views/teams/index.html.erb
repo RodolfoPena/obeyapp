@@ -48,18 +48,18 @@
               <a class="nav-link active" data-toggle="tab" href="#teams" role="tab" aria-controls="teams" aria-selected="true">Obeyas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#projects" role="tab" aria-controls="projects" aria-selected="false">Targets</a>
+              <a class="nav-link" data-toggle="tab" href="#targets" role="tab" aria-controls="targets" aria-selected="false">Targets</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-controls="tasks" aria-selected="false">Commitments</a>
+              <a class="nav-link" data-toggle="tab" href="#commitments" role="tab" aria-controls="commitments" aria-selected="false">Commitments</a>
             </li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane fade show active" id="teams" role="tabpanel" aria-labelledby="teams-tab" data-filter-list="content-list-body">
               <div class="row content-list-head">
                 <div class="col-auto">
-                  <h3>Obeyas</h3>
-                  <%= link_to '+', new_team_path, remote: true, class:'btn btn-round', data: {toggle:'modal', target:'#team-add-modal'} %>
+                    <h3>Obeyas</h3>
+                    <%= link_to '+', new_team_path, remote: true, class:'btn btn-round', data: {toggle:'modal', target:'#team-add-modal'} %>
                 </div>
                 <form class="col-md-auto">
                   <div class="input-group input-group-round">
@@ -84,10 +84,9 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                           <%= link_to 'Show', team_path(team), class:'dropdown-item'%>
-                          <%= link_to 'Edit', edit_team_path(team), class:'dropdown-item', data: {toggle:'modal', target:"#team-edit-modal-#{team.id}"} %>
+                          <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#team-edit-modal-#{team.id}"} %>
                           <div class="dropdown-divider"></div>
-                          <%= link_to 'Delete', team_path(team.id), class:'dropdown-item text-danger', method: :delete%>
-                          <a class="dropdown-item text-danger" href="#">Leave Team</a>
+                          <%= link_to 'Delete', team_path(team.id), class:'dropdown-item text-danger', method: :delete %>
                         </div>
                       </div>
                       <div class="card-title">
@@ -95,9 +94,9 @@
                           <h5 data-filter-by="text"><%= team.name %></h5>
                         </a>
                         <% if (team.members.count) == 1 %>
-                        <span> 1 Member</span>
+                        <span> 1 Member / <%= team.targets.count %> Target </span>
                         <% else %>
-                        <span><%= team.members.count %> Members</span>
+                        <span><%= team.members.count %> Members / <%= team.targets.count %> Targets</span>
                         <% end %>
                       </div>
 
@@ -112,17 +111,177 @@
                       </ul>
                     </div>
                   </div>
-                  <%= render partial: 'edit', locals: { team: team } %>
+                  <%= render partial: 'teams/edit', locals: { team: team } %>
                 </div>
                 <% end %>
-              <%= render 'new' %>
+              <%= render 'teams/new' %>
               </div>
-
               <!--end of content-list-body-->
             </div>
             <!--end of tab-->
-          </div>
+            <div class="tab-pane fade show" id="targets" role="tabpanel" aria-labelledby="targets-tab" data-filter-list="content-list-body">
+                <div class="content-list">
+                    <div class="row content-list-head">
+                        <div class="col-auto">
+                            <h3>Targets</h3>
+                            <%= link_to '+', targets_path, remote: true, class:'btn btn-round', data: {toggle:'modal', target:'#target-add-modal'} %>
+                        </div>
+                        <form class="col-md-auto">
+                            <div class="input-group input-group-round">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">filter_list</i>
+                                    </span>
+                                </div>
+                                <input type="search" class="form-control filter-list-input" placeholder="Filter projects" aria-label="Filter Projects" aria-describedby="filter-projects">
+                            </div>
+                        </form>
+                    </div>
+                    <!--end of content list head-->
+                    <div class="content-list-body row">
+                      <% current_user.targets.each do |target| %>
+                        <div class="col-lg-6">
+                            <div class="card card-project">
+                                <div class="progress">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="dropdown card-options">
+                                        <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="material-icons">more_vert</i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#target-edit-modal-#{target.id}"} %>
+                                            <div class="dropdown-divider"></div>
+                                            <%= link_to 'Delete', target_path(target.id), method: :DELETE, class:'dropdown-item text-danger' %>
+                                        </div>
+                                    </div>
+                                    <div class="card-title">
+                                        <a href="#">
+                                            <h5 data-filter-by="text"><%= target.title %></h5>
+                                        </a>
+                                        <% if target.team.nil? %>
+                                          <span>Add a team <a href="#">here</a></span>
+                                        <% else %>
+                                          <span> Team: <%= target.team.name %> / <%= target.commitments.count %> promises</span>
+                                        <% end %>
+                                    </div>
+                                    <ul class="avatars">
+                                        <li>
+                                          <% if target.responsible.nil? %>
+                                            <a href="#" data-toggle="tooltip" title="Kenny">
+                                              <%= link_to 'Add Responsible', '#', class:'dropdown-item', data: {toggle:'modal', target:"#add-target-responsible-#{target.id}"} %>
 
+                                            </a>
+                                            <% else %>
+                                            <a href="#" data-toggle="tooltip" title="Kenny">
+                                                <%= image_tag user_avatar(target.responsible.id), class:'avatar' %>
+                                            </a>
+                                            <% end %>
+                                        </li>
+                                    </ul>
+                                    <div class="card-meta d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <i class="material-icons mr-1">playlist_add_check</i>
+                                            <span class="text-small">1/8</span>
+                                        </div>
+                                        <span class="text-small" data-filter-by="text">Due <%= (target.due_date - Date.today).to_i %> days</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <%= render partial: 'targets/edit', locals: { target: target } %>
+                            <%= render partial: 'targets/add-target-responsible', locals: { target: target } %>
+                        </div>
+                        <% end %>
+                        <%= render 'targets/new' %>
+                    </div>
+                    <!--end of content list body-->
+                </div>
+                <!--end of content list-->
+            </div>
+            <div class="tab-pane fade show" id="commitments" role="tabpanel" aria-labelledby="commitments-tab" data-filter-list="content-list-body">
+                <div class="content-list">
+                  <div class="row content-list-head">
+                      <div class="col-auto">
+                          <h3>Commitments</h3>
+                          <%= link_to '+', commitments_path, remote: true, class:'btn btn-round', data: {toggle:'modal', target:'#commitment-add-modal'} %>
+                      </div>
+                      <form class="col-md-auto">
+                          <div class="input-group input-group-round">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text">
+                                      <i class="material-icons">filter_list</i>
+                                  </span>
+                              </div>
+                              <input type="search" class="form-control filter-list-input" placeholder="Filter commitments" aria-label="Filter commitments" aria-describedby="filter-commitments">
+                          </div>
+                      </form>
+                  </div>
+                  <div class="card-list">
+                      <div class="card-list-head">
+                          <h6>Critical</h6>
+                          <div class="dropdown">
+                              <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="material-icons">more_vert</i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-right">
+                                  <a class="dropdown-item" href="#">Rename</a>
+                                  <a class="dropdown-item text-danger" href="#">Archive</a>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="card-list-body">
+                        <% current_user.responsible_commitments.each do |commitment| %>
+                          <div class="card card-task">
+                              <div class="progress">
+                                  <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <div class="card-body">
+                                  <div class="card-title">
+                                      <a href="#">
+                                          <h6 data-filter-by="text"><%= commitment.action %></h6>
+                                      </a>
+                                      <% if commitment.target.nil? %>
+                                        Needed for a target
+                                      <% else %>
+                                        <span class="text-small">Owner: <%= commitment.user_id %> / Target: <%= commitment.target.title %></span>
+                                      <% end %>
+                                  </div>
+                                  <div class="card-meta">
+                                      <ul class="avatars">
+                                          <li>
+                                              <a href="#" data-toggle="tooltip" title="Kenny">
+                                                  <%= image_tag user_avatar(current_user.id), class:'avatar' %>
+                                              </a>
+                                          </li>
+                                      </ul>
+                                      <div class="d-flex align-items-center">
+                                          <i class="material-icons">playlist_add_check</i>
+                                          <span>3/4</span>
+                                      </div>
+                                      <div class="dropdown card-options">
+                                          <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              <i class="material-icons">more_vert</i>
+                                          </button>
+                                          <div class="dropdown-menu dropdown-menu-right">
+                                            <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#commitments-edit-modal-#{commitment.id}"} %>
+                                            <div class="dropdown-divider"></div>
+                                            <%= link_to 'Delete', commitment_path(commitment.id), method: :DELETE, class:'dropdown-item text-danger' %>
+
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <%= render partial: 'commitments/edit', locals: { commitment: commitment } %>
+                          </div>
+                          <% end %>
+                          <%= render 'commitments/new' %>
+                      </div>
+                  </div>
+                    <!--end of content list body-->
+                </div>
+                <!--end of content list-->
+            </div>
         </div>
       </div>
     </div>

@@ -33,9 +33,8 @@
           <div class="users-manage" data-filter-list="form-group-users">
             <div class="mb-3">
               <ul class="avatars text-center">
-
                 <li>
-                  <%= image_tag user_avatar(current_user.id), class:'avatar', title: current_user.first_name %>
+                  <%= image_tag user_avatar(current_user.id), class:'avatar avatar-lg', 'data-title': current_user.first_name, 'data-toggle':'tooltip' %>
                 </li>
               </ul>
             </div>
@@ -48,22 +47,18 @@
               <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
             </div>
             <div class="form-group-users">
-
               <% @users.each do |user| %>
-
-              <div class="custom-checkbox">
-                <%= f.check_box :member_ids, {class: 'custom-control', multiple: true }, user.id, nil %>
+              <div class="custom-control custom-checkbox">
                 <label class="custom-control-label" for="<%= user.id %>">
+                  <%= f.check_box :member_ids, {multiple: true, checked:false}, user.id, nil %>
                   <div class="d-flex align-items-center">
                     <%= image_tag user_avatar(user.id), class:'avatar mr-2' %>
-                    <%= user.first_name %> <%= user.last_name %>
-                    <span class="h6 mb-0" data-filter-by="text"></span>
+                    <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %></span>
                   </div>
                 </label>
               </div>
               <% end %>
             </div>
-
           </div>
         </div>
       </div>

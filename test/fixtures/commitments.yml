@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  action: MyString
+  conditions_of_satisfaction: MyText
+  due_date: 2018-12-07
+  closing_date: 2018-12-07
+  critical: false
+  deliverable: false
+
+two:
+  action: MyString
+  conditions_of_satisfaction: MyText
+  due_date: 2018-12-07
+  closing_date: 2018-12-07
+  critical: false
+  deliverable: false

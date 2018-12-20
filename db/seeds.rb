@@ -11,7 +11,7 @@ User.destroy_all
 
 10.times do |i|
   User.create(
-    email: "user#{i}@mail.com",
+    email: "user#{i}@email.com",
     first_name: "User #{i}",
     bio: "I'm a fullstack developer",
     password: '112233')
