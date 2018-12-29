@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
 
-  resources :teams
+  resources :teams do
+    resources :targets, only: [:create], controller: 'targets', action: 'nested_create'
+  end
   resources :targets
-  resources :commitments
+  resources :commitments do
+    member do
+      patch :complete
+    end
+  end
 
   get 'pages/index'
   get 'pages/prices'

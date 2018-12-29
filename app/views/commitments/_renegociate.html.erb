@@ -1,0 +1,51 @@
+<%= form_with model: commitment, remote:true, class: "modal fade", id: "commitment-renegociate-modal-#{commitment.id}", tabindex: "-1", role: "dialog", 'aria-labelledby': "commitment-renegociate-modal", 'aria-hidden': "true" do |f| %>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Renegociate commitment</h5>
+                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <!--end of modal head-->
+            <div class="modal-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="commitment-renegociate-details-<%= commitment.id %>" role="tabpanel" aria-labelledby="commitment-renegociate-details-tab-<%= commitment.id %>">
+                        <h6>Timeline details</h6>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Action</label>
+                            <%= f.label :action, class: "form-control col", placeholder:"Action to do"%>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3">Conditions of satisfaction</label>
+                            <%= f.label :conditions_of_satisfaction, class: "form-control col", placeholder:"Set conditions of satisfaction", rows:'3'%>
+                        </div>
+                        <hr>
+                        <h6>Timeline</h6>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Start Date</label>
+                            <%= f.date_field :start_date, class: "form-control col", placeholder:"Start date"%>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Due Date</label>
+                            <%= f.date_field :due_date, class: "form-control col", placeholder:"Commitment due"%>
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Renegociation Date</label>
+                            <%= f.date_field :renegotiation_date, class: "form-control col", placeholder:"Commitment renegociation"%>
+                        </div>
+                        <div class="alert alert-warning text-small" role="alert">
+                            <span>You will not be able to change this date after this</span>
+                        </div>
+                        <hr>
+                    </div>
+                    <!-- end of tabpane team -->
+                </div>
+            </div>
+            <!--end of modal body-->
+            <div class="modal-footer">
+              <%= f.submit "Create", class:'btn btn-primary' %>
+            </div>
+        </div>
+    </div>
+<% end %>

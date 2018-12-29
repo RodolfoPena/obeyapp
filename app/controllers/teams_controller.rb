@@ -64,6 +64,10 @@ class TeamsController < ApplicationController
 
   private
 
+  def target_params
+    params.require(:target).permit(:title, :description, :start_date, :due_date, :responsible_id, :team_id)
+  end
+
   def team_params
     params.require(:team).permit(:name, :description)
   end

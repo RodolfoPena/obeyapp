@@ -2,12 +2,11 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">Edit Obeya</h5>
+      <h5 class="modal-title">Edit Team</h5>
       <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
         <i class="material-icons">close</i>
       </button>
     </div>
-    <!--end of modal head-->
     <ul class="nav nav-tabs nav-fill">
       <li class="nav-item">
         <a class="nav-link active" id="team-edit-details-tab-<%= team.id %>" data-toggle="tab" href="#team-edit-details-<%= team.id %>" role="tab" aria-controls="team-edit-details" aria-selected="true">Details</a>
@@ -19,7 +18,7 @@
     <div class="modal-body">
       <div class="tab-content">
         <div class="tab-pane fade show active" id="team-edit-details-<%= team.id %>" role="tabpanel" aria-labelledby="team-edit-details-tab-<%= team.id %>">
-          <h6>Obeya details</h6>
+          <h6>Team details</h6>
           <div class="form-group row align-items-center">
             <label class="col-3">Name</label>
             <%= f.text_field :name, class: "form-control col", placeholder:"Obeya name", id: "team_name_edit"%>
@@ -33,10 +32,11 @@
           <div class="users-manage" data-filter-list="form-group-users">
             <div class="mb-3">
               <ul class="avatars text-center">
-
+                <% team.user_members.each do |member| %>
                 <li>
-                  <%= image_tag user_avatar(current_user.id), class:'avatar', title: current_user.first_name %>
+                  <%= image_tag user_avatar(member.id), class:'avatar', title: member.first_name %>
                 </li>
+                <% end %>
               </ul>
             </div>
             <div class="input-group input-group-round">
@@ -48,27 +48,24 @@
               <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
             </div>
             <div class="form-group-users">
-              <% @users.each do |user|  %>
-              <div class="custom-checkbox">
+              <% @users.each do |user| %>
+              <div class="custom-control custom-checkbox">
+                <%= f.check_box :member_ids, {multiple: true, checked: (team.user_members.include?(user) ? 'checked' : ''), class:'custom-control-input', id:"team-edit-manage-#{user.id}"}, user.id, nil %>
+                <label class="custom-control-label" for="team-edit-manage-<%= user.id %>">
                   <div class="d-flex align-items-center">
                     <%= image_tag user_avatar(user.id), class:'avatar mr-2' %>
-                    <%= user.first_name %> <%= user.last_name %>
-                    <span class="h6 mb-0" data-filter-by="text"></span>
-                    <div class="custom-control">
-                    <%= f.check_box :member_ids, {multiple: true, checked: (team.user_members.include?(user) ? 'checked' : '')}, user.id, nil %>
-                    </div>
+                    <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %></span>
                   </div>
+                </label>
               </div>
               <% end %>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-    <!--end of modal body-->
     <div class="modal-footer">
-    <%= f.submit "Create", class:'btn btn-primary' %>
+      <%= f.submit "Create", class:'btn btn-primary' %>
     </div>
   </div>
 </div>

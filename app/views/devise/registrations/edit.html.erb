@@ -1,15 +1,35 @@
-<div class="layout layout-nav-top">
+<div class="layout layout-nav-side">
+  <%= render 'shared/navside' %>
   <div class="main-container">
-    <div class="breadcrumb-bar navbar bg-white sticky-top">
+
+    <div class="navbar bg-white breadcrumb-bar">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <%= link_to 'Home', pages_index_path, class:'breadcrumb-item' %>
-          <%= link_to 'Account Settings', pages_index_path, class:'breadcrumb-item active' %>
+          <li class="breadcrumb-item">
+            <a href="index.html">Overview</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="pages-app.html">App Pages</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">User</li>
         </ol>
-
       </nav>
-      <%= link_to 'Go To Obeya', pages_index_path, class:'btn btn-outline-dark navbar-text' %>
+
+      <div class="dropdown">
+        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons">settings</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+
+          <a class="dropdown-item" href="#">Account Settings</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="#">Log out</a>
+
+        </div>
+      </div>
+
     </div>
+    <%= render 'shared/notices'%>
     <div class="container">
       <div class="row justify-content-center mt-5">
         <div class="col-lg-3 mb-3">

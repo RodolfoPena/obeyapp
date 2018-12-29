@@ -1,0 +1,393 @@
+<div class="layout layout-nav-side">
+  <%= render 'shared/navside' %>
+  <div class="main-container">
+
+    <div class="navbar bg-white breadcrumb-bar">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Overview</a>
+          </li>
+
+          <li class="breadcrumb-item"><a href="pages-app.html">App Pages</a>
+          </li>
+
+
+          <li class="breadcrumb-item active" aria-current="page">Kanban Board</li>
+        </ol>
+      </nav>
+
+      <div class="dropdown">
+        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons">settings</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+
+
+          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#project-edit-modal">Edit Project</a>
+          <a class="dropdown-item" href="#">Share</a>
+          <a class="dropdown-item" href="#">Mark as Complete</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="#">Archive</a>
+
+
+
+
+        </div>
+      </div>
+
+    </div>
+    <div class="container-kanban">
+      <div class="container-fluid page-header d-flex justify-content-between align-items-start">
+        <div>
+          <h1><%= @target.title %></h1>
+          <p class="lead d-none d-md-block"><%= @target.description %></p>
+        </div>
+        <div class="d-flex align-items-center">
+          <ul class="avatars">
+            <li>
+              <a href="#" data-toggle="tooltip" data-placement="top" title="<%= find_user(@target.responsible_id) %>">
+                <%= image_tag user_avatar(@target.responsible_id), class:'avatar'%>
+              </a>
+            </li>
+          </ul>
+          <button class="btn btn-round" data-toggle="tooltip" data-placement="top" title="Add User">
+            <i class="material-icons">add</i>
+          </button>
+        </div>
+      </div>
+      <div class="kanban-board container-fluid mt-lg-3">
+        <!-- Backlog -->
+        <div class="kanban-col">
+          <div class="card-list">
+            <div class="card-list-header">
+              <h6>Backlog</h6>
+              <div class="dropdown">
+                <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#">Edit</a>
+                  <a class="dropdown-item text-danger" href="#">Archive List</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-list-body">
+              <% (backlog_commitments(current_user.responsible_commitments, @target)).each do |commitment| %>
+              <div class="card card-kanban">
+                <div class="card-body">
+                  <div class="dropdown card-options">
+                    <button class="btn-options" type="button" id="kanban-dropdown-button-<%= commitment.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" href="#">Edit</a>
+                      <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    </div>
+                  </div>
+                  <div class="card-title">
+                    <a href="#" data-toggle="modal" data-target="#task-modal">
+                      <h6><%= commitment.action %></h6>
+                    </a>
+                  </div>
+                  <ul class="avatars">
+                    <li>
+                      <a href="#" data-toggle="tooltip" title="David">
+                        <%= image_tag user_avatar(user_id_for_commitment(commitment.user_id)), class:'avatar'%>
+                      </a>
+                    </li>
+                  </ul>
+
+
+                  <div class="card-meta d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <i class="material-icons">playlist_add_check</i>
+                      <span>-/-</span>
+                    </div>
+                    <% if commitment.due_date.nil? %>
+                    <span class="text-small">Unscheduled</span>
+                    <% else %>
+                    <span class="text-small">Due <%= distance_of_time_in_words(commitment.due_date, Time.now)%></span>
+                    <% end %>
+
+                  </div>
+
+                </div>
+              </div>
+              <% end %>
+
+              <div class="card-list-footer">
+                <button class="btn btn-link btn-sm text-small">Add task</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Waiting -->
+        <div class="kanban-col">
+          <div class="card-list">
+            <div class="card-list-header">
+              <h6>Waiting</h6>
+              <div class="dropdown">
+                <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#">Edit</a>
+                  <a class="dropdown-item text-danger" href="#">Archive List</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-list-body">
+              <% (waiting_commitments(current_user.responsible_commitments, @target)).each do |commitment| %>
+              <div class="card card-kanban">
+                <div class="card-body">
+                  <div class="dropdown card-options">
+                    <button class="btn-options" type="button" id="kanban-dropdown-button-<%= commitment.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" href="#">Edit</a>
+                      <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    </div>
+                  </div>
+                  <div class="card-title">
+                    <a href="#" data-toggle="modal" data-target="#task-modal">
+                      <h6><%= commitment.action %></h6>
+                    </a>
+                  </div>
+                  <ul class="avatars">
+                    <li>
+                      <a href="#" data-toggle="tooltip" title="David">
+                        <%= image_tag user_avatar(user_id_for_commitment(commitment.user_id)), class:'avatar'%>
+                      </a>
+                    </li>
+                  </ul>
+
+
+                  <div class="card-meta d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <i class="material-icons">playlist_add_check</i>
+                      <span>-/-</span>
+                    </div>
+                    <% if commitment.due_date.nil? %>
+                    <span class="text-small">Unscheduled</span>
+                    <% else %>
+                    <span class="text-small">Due <%= distance_of_time_in_words(commitment.due_date, Time.now)%></span>
+                    <% end %>
+
+                  </div>
+
+                </div>
+              </div>
+              <% end %>
+
+              <div class="card-list-footer">
+                <button class="btn btn-link btn-sm text-small">Add task</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- This Week -->
+        <div class="kanban-col">
+          <div class="card-list">
+            <div class="card-list-header">
+              <h6>This week</h6>
+              <div class="dropdown">
+                <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#">Edit</a>
+                  <a class="dropdown-item text-danger" href="#">Archive List</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-list-body">
+              <% (this_week_commitments(current_user.responsible_commitments, @target)).each do |commitment| %>
+              <div class="card card-kanban">
+                <div class="card-body">
+                  <div class="dropdown card-options">
+                    <button class="btn-options" type="button" id="kanban-dropdown-button-<%= commitment.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" href="#">Edit</a>
+                      <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    </div>
+                  </div>
+                  <div class="card-title">
+                    <a href="#" data-toggle="modal" data-target="#task-modal">
+                      <h6><%= commitment.action %></h6>
+                    </a>
+                  </div>
+                  <ul class="avatars">
+                    <li>
+                      <a href="#" data-toggle="tooltip" title="David">
+                        <%= image_tag user_avatar(user_id_for_commitment(commitment.user_id)), class:'avatar'%>
+                      </a>
+                    </li>
+                  </ul>
+
+
+                  <div class="card-meta d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <i class="material-icons">playlist_add_check</i>
+                      <span>-/-</span>
+                    </div>
+                    <% if commitment.due_date.nil? %>
+                    <span class="text-small">Unscheduled</span>
+                    <% else %>
+                    <span class="text-small">Due <%= distance_of_time_in_words(commitment.due_date, Time.now)%></span>
+                    <% end %>
+
+                  </div>
+
+                </div>
+              </div>
+              <% end %>
+
+              <div class="card-list-footer">
+                <button class="btn btn-link btn-sm text-small">Add task</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Doing -->
+        <div class="kanban-col">
+          <div class="card-list">
+            <div class="card-list-header">
+              <h6>Doing</h6>
+              <div class="dropdown">
+                <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#">Edit</a>
+                  <a class="dropdown-item text-danger" href="#">Archive List</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-list-body">
+              <% (today_commitments(current_user.responsible_commitments, @target)).each do |commitment| %>
+              <div class="card card-kanban">
+                <div class="card-body">
+                  <div class="dropdown card-options">
+                    <button class="btn-options" type="button" id="kanban-dropdown-button-<%= commitment.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" href="#">Edit</a>
+                      <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    </div>
+                  </div>
+                  <div class="card-title">
+                    <a href="#" data-toggle="modal" data-target="#task-modal">
+                      <h6><%= commitment.action %></h6>
+                    </a>
+                  </div>
+                  <ul class="avatars">
+                    <li>
+                      <a href="#" data-toggle="tooltip" title="David">
+                        <%= image_tag user_avatar(user_id_for_commitment(commitment.user_id)), class:'avatar'%>
+                      </a>
+                    </li>
+                  </ul>
+
+
+                  <div class="card-meta d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <i class="material-icons">playlist_add_check</i>
+                      <span>-/-</span>
+                    </div>
+                    <% if commitment.due_date.nil? %>
+                    <span class="text-small">Unscheduled</span>
+                    <% else %>
+                    <span class="text-small">Due <%= distance_of_time_in_words(commitment.due_date, Time.now)%></span>
+                    <% end %>
+
+                  </div>
+
+                </div>
+              </div>
+              <% end %>
+
+              <div class="card-list-footer">
+                <button class="btn btn-link btn-sm text-small">Add task</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Done -->
+        <div class="kanban-col">
+          <div class="card-list">
+            <div class="card-list-header">
+              <h6>Done</h6>
+              <div class="dropdown">
+                <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#">Edit</a>
+                  <a class="dropdown-item text-danger" href="#">Archive List</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-list-body">
+              <% (done_commitments(current_user.responsible_commitments, @target)).each do |commitment| %>
+              <div class="card card-kanban">
+                <div class="card-body">
+                  <div class="dropdown card-options">
+                    <button class="btn-options" type="button" id="kanban-dropdown-button-<%= commitment.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" href="#">Edit</a>
+                      <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                    </div>
+                  </div>
+                  <div class="card-title">
+                    <a href="#" data-toggle="modal" data-target="#task-modal">
+                      <h6><%= commitment.action %></h6>
+                    </a>
+                  </div>
+                  <ul class="avatars">
+                    <li>
+                      <a href="#" data-toggle="tooltip" title="David">
+                        <%= image_tag user_avatar(user_id_for_commitment(commitment.user_id)), class:'avatar'%>
+                      </a>
+                    </li>
+                  </ul>
+
+
+                  <div class="card-meta d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <i class="material-icons">playlist_add_check</i>
+                      <span>-/-</span>
+                    </div>
+                    <% if commitment.due_date.nil? %>
+                    <span class="text-small">Unscheduled</span>
+                    <% else %>
+                    <span class="text-small">Due <%= distance_of_time_in_words(commitment.due_date, Time.now)%></span>
+                    <% end %>
+
+                  </div>
+
+                </div>
+              </div>
+              <% end %>
+
+              <div class="card-list-footer">
+                <button class="btn btn-link btn-sm text-small">Add task</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-round btn-floating btn-lg" type="button" data-toggle="collapse" data-target="#floating-chat" aria-expanded="false" aria-controls="sidebar-floating-chat">
+      <i class="material-icons">chat_bubble</i>
+      <i class="material-icons">close</i>
+    </button>
+
+  </div>
+</div>

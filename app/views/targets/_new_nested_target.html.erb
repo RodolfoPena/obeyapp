@@ -1,4 +1,4 @@
-<%= form_with model: @target,  remote:true, class: "modal fade", id: "target-add-modal", tabindex: "-1", role: "dialog", 'aria-labelledby': "target-add-modal", 'aria-hidden': "true" do |f| %>
+<%= form_with model: [team, Target.new], remote:true, class: "modal fade", id: "team-target-add-modal", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-target-add-modal", 'aria-hidden': "true" do |f| %>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,9 +14,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="target-add-responsable-tab" data-toggle="tab" href="#target-add-responsable" role="tab" aria-controls="target-add-responsable" aria-selected="false">Responsable</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="target-add-team-tab" data-toggle="tab" href="#target-add-team" role="tab" aria-controls="target-add-team" aria-selected="false">Team</a>
                 </li>
             </ul>
             <div class="modal-body">
@@ -76,7 +73,7 @@
                                 <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
                             </div>
                             <div class="form-group-users">
-                              <% @users.each do |user| %>
+                              <% team.user_members.each do |user| %>
                               <div class="custom-control custom-radio">
                                 <%= f.radio_button :responsible_id , user.id, id:"responsible-target-#{user.id}", class:'custom-control-input' %>
                                 <label class="custom-control-label" for="responsible-target-<%= user.id %>">
@@ -91,40 +88,6 @@
                         </div>
                     </div>
                     <!-- end of tabpane responsable -->
-                    <!-- start of tabpane team -->
-                    <div class="tab-pane fade" id="target-add-team" role="tabpanel" aria-labelledby="target-add-team-tab">
-                        <div class="users-manage" data-filter-list="form-group-users">
-                            <div class="mb-3">
-                                <ul class="avatars text-center">
-                                  Team:
-                                    <li>
-
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="input-group input-group-round">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="material-icons">filter_list</i>
-                                    </span>
-                                </div>
-                                <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
-                            </div>
-                            <div class="form-group-users">
-                            <% current_user.teams.each do |team| %>
-                                <div class="custom-control custom-radio">
-                                  <%= f.radio_button :team_id, team.id, id:"team-target-#{team.id}", class:'custom-control-input' %>
-                                    <label class="custom-control-label" for="team-target-<%= team.id %>">
-                                        <div class="d-flex align-items-center">
-                                            <span class="h6 mb-0" data-filter-by="text"><%= team.name %></span>
-                                        </div>
-                                    </label>
-                                </div>
-                            <% end %>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end of tabpane team -->
                 </div>
             </div>
             <!--end of modal body-->
