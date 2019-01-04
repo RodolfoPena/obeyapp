@@ -1,0 +1,78 @@
+<div class="layout layout-nav-side">
+  <%= render 'shared/navside' %>
+  <div class="main-container">
+    <div class="navbar bg-white breadcrumb-bar">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="<%= teams_path(tab: '#teams') %>">Overview</a>
+          </li>
+          <li class="breadcrumb-item active">
+            <a> Obeya Skills </a>
+          </li>
+
+        </ol>
+      </nav>
+
+      <div class="dropdown">
+        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons">settings</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+
+          <a class="dropdown-item" href="#">Account Settings</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="#">Log out</a>
+
+        </div>
+      </div>
+
+    </div>
+    <%= render 'shared/notices'%>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-11 col-xl-10">
+          <div class="page-header mb-4">
+            <div class="media">
+              <div class="media-body">
+                <h1 class="mb-0">Obeya Skills</h1>
+                <p class="lead">Welcome <%= current_user.first_name %>, here we are some skills to develop</p>
+              </div>
+            </div>
+          </div>
+          <div class="card card-kanban w-25">
+            <div class="card-body">
+              <div class="dropdown card-options">
+                <button class="btn-options" type="button" id="kanban-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#">Edit</a>
+                  <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                </div>
+              </div>
+              <div class="card-title">
+                <a href="#" data-toggle="modal" data-target="#task-modal">
+                  <h6>Level of commitment</h6>
+                </a>
+              </div>
+              <ul class="avatars">
+                <li>
+                  <a href="#" data-toggle="tooltip" title="David">
+                    <h1><%= level_of_commitment(current_user)%>%</h1>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-round btn-floating btn-lg" type="button" data-toggle="collapse" data-target="#floating-chat" aria-expanded="false" aria-controls="sidebar-floating-chat">
+        <i class="material-icons">chat_bubble</i>
+        <i class="material-icons">close</i>
+      </button>
+
+
+    </div>
+  </div>

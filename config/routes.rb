@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'pages/certification'
   get 'pages/obeya_global'
   get 'pages/prototipe'
+  get 'pages/obeya_skills'
 
   devise_for :users, controllers: {
         registrations: 'users/registrations'

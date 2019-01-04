@@ -89,4 +89,8 @@ module CommitmentsHelper
       target.commitments.where.not(closing_date: nil)
   end
 
+  def level_of_commitment(user)
+    (((user.owner_commitments.where(closed_in_term: true)).count.to_f)/((user.owner_commitments).count.to_f)*100).round(0)
+  end
+
 end

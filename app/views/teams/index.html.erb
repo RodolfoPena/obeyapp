@@ -44,9 +44,6 @@
           </div>
           <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href=">#guests" role="tab" aria-controls="guests" aria-selected="true">Guests</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#teams" role="tab" aria-controls="teams" aria-selected="false">Teams</a>
             </li>
             <li class="nav-item">
@@ -57,30 +54,7 @@
             </li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane fade show <%= @tab == "guests" ? "active" : "" %>" id="guests" role="tabpanel" aria-labelledby="guests-tab" data-filter-list="content-list-body">
-              <div class="row content-list-head">
-                <div class="col-auto">
-                  <h3 class="mr-2">Guests</h3>
-                  <%= button_to new_team_path, remote: true, class:'btn btn-round', data: {toggle:'modal', target:'#user-invite-modal'} do %>
-                  <i class="material-icons">add</i>
-                  <% end %>
-                </div>
-                <form class="col-md-auto">
-                  <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
-                      </span>
-                    </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Filter teams" aria-label="Filter teams" aria-describedby="filter-teams">
-                  </div>
-                </form>
-              </div>
-              <!--end of content list head-->
-
-              <!--end of content-list-body-->
-            </div>
-            <div class="tab-pane fade show <%= @tab == "teams" ? "active" : "" %>" id="teams" role="tabpanel" aria-labelledby="teams-tab" data-filter-list="content-list-body">
+            <div class="tab-pane fade active show <%= @tab == "teams" ? "active" : "" %>" id="teams" role="tabpanel" aria-labelledby="teams-tab" data-filter-list="content-list-body">
               <div class="row content-list-head">
                 <div class="col-auto">
                   <h3 class="mr-2">Teams</h3>
