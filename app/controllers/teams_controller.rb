@@ -1,5 +1,6 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_team, except: [:index, :new, :create]
 
   def index
     @teams = Team.all
@@ -7,6 +8,7 @@ class TeamsController < ApplicationController
     @users = User.all
     @target = Target.new
     @commitment = Commitment.new
+    @tab = params[:tab]
   end
 
   def new
@@ -22,7 +24,7 @@ class TeamsController < ApplicationController
     end
     respond_to do |format|
       if @team.save
-        format.html { redirect_to teams_path, notice: 'Team was successfully created'}
+        format.html { redirect_to teams_url(tab: "teams"), notice: 'Team was successfully created'}
         format.json { render json: @team, status: :created, location: @team }
       else
         format.html { redirect_to new_team_path, alert: 'Error terrible compadre!'}
@@ -32,37 +34,34 @@ class TeamsController < ApplicationController
   end
 
   def show
-    @team = Team.find(params[:id])
   end
 
   def edit
-    @team = Team.find(params[:id])
-    # respond_to do |format|
-    #   format.js {render 'team/edit'}
-    # end
   end
 
   def update
-    @team = Team.find(params[:id])
     users = User.find(params[:team][:member_ids].each(&:to_i))
     @team.user_members.destroy_all
     users.each do |user|
       @team.user_members << user
     end
     @team.update(team_params)
-    redirect_to teams_path
+    redirect_to teams_url(tab: "teams")
   end
 
   def destroy
-    @team = Team.find(params[:id])
     @team.destroy
     respond_to do |format|
-      format.html { redirect_to teams_path, notice: 'Team was successfully destroyed.'}
+      format.html { redirect_to teams_url(tab: "teams"), alert: 'Team was successfully destroyed'}
       format.json { head :no_content }
     end
   end
 
   private
+
+  def set_team
+    @team = Team.find(params[:id])
+  end
 
   def target_params
     params.require(:target).permit(:title, :description, :start_date, :due_date, :responsible_id, :team_id)

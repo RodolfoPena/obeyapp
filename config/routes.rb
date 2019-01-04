@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
 
   resources :teams do
-    resources :targets, only: [:create], controller: 'targets', action: 'nested_create'
+    resources :targets, only: [:create, :edit, :update], controller: 'targets', action: 'nested_create' do
+      resources :commitments, only: [:create], controller: 'commitments', action: 'nested_create'
+    end
   end
+
   resources :targets
   resources :commitments do
     member do

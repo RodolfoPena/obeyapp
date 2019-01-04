@@ -1,8 +1,8 @@
-<%= form_with model: target, class: "modal fade", id: "target-edit-modal-#{target.id}", tabindex: "-1", role: "dialog", 'aria-labelledby': "target-edit-modal", 'aria-hidden': "true" do |f| %>
+<%= form_with model: target, class: "modal fade", id: "target-edit-modal-#{target.id}", tabindex: "-1", role: "dialog", 'aria-labelledby': "target-edit-modal-#{target.id}", 'aria-hidden': "true" do |f| %>
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">New Target</h5>
+            <h5 class="modal-title">Edit Target</h5>
             <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
                 <i class="material-icons">close</i>
             </button>
@@ -10,13 +10,13 @@
         <!--end of modal head-->
         <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
-                <a class="nav-link active" id="target-add-details-tab-<%= target.id %>" data-toggle="tab" href="#target-add-details-<%= target.id %>" role="tab" aria-controls="target-add-details-<%= target.id %>" aria-selected="true">Details</a>
+                <a class="nav-link active" id="target-add-details-tab-<%= target.id %>" data-toggle="tab" href="#target-add-details-<%= target.id %>" role="tab" aria-controls="target-add-details" aria-selected="true">Details</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="target-add-responsable-tab-<%= target.id %>" data-toggle="tab" href="#target-add-responsable-<%= target.id %>" role="tab" aria-controls="target-add-responsable-<%= target.id %>" aria-selected="false">Responsable</a>
+                <a class="nav-link" id="target-add-responsable-tab-<%= target.id %>" data-toggle="tab" href="#target-add-responsable-<%= target.id %>" role="tab" aria-controls="target-add-responsable" aria-selected="false">Responsable</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="target-add-team-tab-<%= target.id %>" data-toggle="tab" href="#target-add-team-<%= target.id %>" role="tab" aria-controls="target-add-team-<%= target.id %>" aria-selected="false">Team</a>
+                <a class="nav-link" id="target-add-team-tab-<%= target.id %>" data-toggle="tab" href="#target-add-team-<%= target.id %>" role="tab" aria-controls="target-add-team" aria-selected="false">Team</a>
             </li>
         </ul>
         <div class="modal-body">
@@ -68,7 +68,6 @@
                     </div>
                 </div>
                 <!-- start of tabpane responsable -->
-                <!-- start of tabpane responsable -->
                 <div class="tab-pane fade" id="target-add-responsable-<%= target.id %>" role="tabpanel" aria-labelledby="target-add-responsable-tab-<%= target.id %>">
                     <div class="users-manage" data-filter-list="form-group-users">
                         <div class="input-group input-group-round">
@@ -82,10 +81,10 @@
                         <div class="form-group-users">
                           <% @users.each do |user| %>
                           <div class="custom-control custom-radio">
-                            <%= f.radio_button :responsible_id , user.id, id:"responsible-manage-#{user.id}", class:'custom-control-input' %>
-                            <label class="custom-control-label" for="responsible-manage-<%= user.id %>">
+                            <%= f.radio_button :responsible_id, user.id, id:"responsible-edit-manage-#{user.id}", class:'custom-control-input' %>
+                            <label class="custom-control-label" for="responsible-edit-manage-<%= user.id %>">
                               <div class="d-flex align-items-center">
-                                <%= image_tag user_avatar(user.id), class:'avatar mr-2', 'data-title' => user.first_name , 'data-toggle':'tooltip' %>
+                                <%= image_tag user_avatar(user.id), class:'avatar mr-2', 'data-title': user.first_name , 'data-toggle':'tooltip' %>
                                 <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %></span>
                               </div>
                             </label>

@@ -15,10 +15,10 @@ class TargetsController < ApplicationController
     end
     respond_to do |format|
       if @target.save
-        format.html { redirect_to "#{teams_path}#targets", notice: 'Target was successfully created'}
+        format.html { redirect_to teams_url(tab: "targets"), notice: 'Target was successfully created'}
         format.json { render json: @target, status: :created, location: @target }
       else
-        format.html { redirect_to new_target_path, alert: 'Unprocessable entity'}
+        format.html { redirect_to teams_url(tab: "targets"), alert: 'Unprocessable entity'}
         format.json { render json: @target.errors, status: :unprocessable_entity }
       end
     end
@@ -37,10 +37,10 @@ class TargetsController < ApplicationController
     @target.team = Team.find(params[:team_id])
     respond_to do |format|
       if @target.save
-        format.html { redirect_to team_path(@target.team.id), notice: 'Target was successfully created'}
+        format.html { redirect_to teams_url(tab: "targets"), notice: 'Target was successfully created'}
         format.json { render json: @target, status: :created, location: @target }
       else
-        format.html { redirect_to new_target_path, alert: 'Unprocessable entity'}
+        format.html { redirect_to teams_url(tab: "targets"), alert: 'Unprocessable entity'}
         format.json { render json: @target.errors, status: :unprocessable_entity }
       end
     end
@@ -54,7 +54,7 @@ class TargetsController < ApplicationController
 
   def update
     @target.update(target_params)
-    redirect_to teams_path
+    redirect_to teams_url(tab: "targets")
   end
 
   def destroy
@@ -62,7 +62,6 @@ class TargetsController < ApplicationController
       commitment.destroy
     end
     @target.destroy
-    redirect_to teams_path
   end
 
   private
@@ -70,7 +69,7 @@ class TargetsController < ApplicationController
   def set_target
     @target = Target.find(params[:id])
   end
-  
+
   def target_params
     params.require(:target).permit(:title, :description, :start_date, :due_date, :responsible_id, :team_id)
   end

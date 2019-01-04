@@ -69,24 +69,24 @@ module CommitmentsHelper
   end
 
 
-  def backlog_commitments(commitments, target)
-      commitments.where(due_date: nil).where(target_id: target.id)
+  def backlog_commitments(target)
+      target.commitments.where(due_date: nil)
   end
 
-  def waiting_commitments(commitments, target)
-      commitments.where.not(due_date: nil, closing_date: "?").where(target_id: target.id)
+  def waiting_commitments(target)
+    target.commitments.where.not(due_date: nil, closing_date: "?")
   end
 
-  def this_week_commitments(commitments, target)
-      commitments.where(due_date: 1.week.ago..Date.today, closing_date: nil).where(target_id: target.id)
+  def this_week_commitments(target)
+      target.commitments.where(due_date: 1.week.ago..Date.today, closing_date: nil)
   end
 
-  def today_commitments(commitments, target)
-      commitments.where(due_date: Date.today, closing_date: nil).where(target_id: target.id)
+  def today_commitments(target)
+      target.commitments.where(due_date: Date.today, closing_date: nil)
   end
 
-  def done_commitments(commitments, target)
-      commitments.where(closing_date: "?").where(target_id: target.id)
+  def done_commitments(target)
+      target.commitments.where.not(closing_date: nil)
   end
 
 end

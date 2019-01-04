@@ -4,8 +4,8 @@
     <div class="navbar bg-white breadcrumb-bar">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><%= link_to 'Obeyas', teams_path, class:'breadcrumb-ite' %></li>
-          <li class="breadcrumb-item active" aria-current="page">Team</li>
+          <li class="breadcrumb-item"><%= link_to 'Overview', teams_path, class:'breadcrumb-ite' %></li>
+          <li class="breadcrumb-item active" aria-current="page"><%= @team.name %></li>
         </ol>
       </nav>
       <div class="dropdown">
@@ -56,7 +56,7 @@
                 <div class="row content-list-head">
                   <div class="col-auto">
                     <h3 class="mr-3">Targets</h3>
-                    <%= button_to team_targets_path(@team), remote: true, class:'btn btn-round', data: {toggle:'modal', target:'#team-target-add-modal'} do %>
+                    <%= button_to team_targets_path(@team.id), remote: true, class:'btn btn-round', data: {toggle:'modal', target:"#team-target-add-modal"} do %>
                     <i class="material-icons">add</i>
                     <% end %>
                   </div>
@@ -85,7 +85,7 @@
                             <i class="material-icons">more_vert</i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right">
-                            <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#target-edit-modal-#{target.id}"} %>
+                            <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#team-target-edit-modal-#{target.id}"} %>
                             <div class="dropdown-divider"></div>
                             <%= link_to 'Delete', target_path(target.id), method: :DELETE, class:'dropdown-item text-danger' %>
                           </div>
@@ -118,9 +118,11 @@
                       </div>
                     </div>
                   </div>
-                  <%= render partial: 'targets/new_nested_target', locals: { team: @team } %>
+                  <%= render partial: 'targets/edit_nested_target', locals: { team: @team, target: target } %>
                   <% end %>
                 </div>
+                <%= render partial: 'targets/new_nested_target', locals: { team: @team } %>
+
                 <!--end of content list body-->
               </div>
               <!--end of content list-->

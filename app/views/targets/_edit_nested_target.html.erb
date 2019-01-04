@@ -1,8 +1,8 @@
-<%= form_with model: [team, Target.new], remote:true, class: "modal fade", id: "team-target-add-modal", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-target-add-modal", 'aria-hidden': "true" do |f| %>
+<%= form_with model: [team, target], remote:true, class: "modal fade", id: "team-target-edit-modal-#{target.id}", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-target-edit-modal-#{target.id}", 'aria-hidden': "true" do |f| %>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">New Target</h5>
+                <h5 class="modal-title">Edit Target</h5>
                 <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>

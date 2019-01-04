@@ -1,6 +1,6 @@
 class CommitmentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_commitment, except: [:create]
+  before_action :set_commitment, except: [:create, :nested_create]
   include CommitmentsHelper
 
 
@@ -11,10 +11,27 @@ class CommitmentsController < ApplicationController
     @commitment.responsible = User.find(params[:commitment][:responsible_id].to_i)
     respond_to do |format|
       if @commitment.save
-        format.html { redirect_to "#{teams_path}#commitment", notice: 'Commitment was successfully created'}
+        format.html { redirect_to teams_url(tab: "commitments"), notice: 'Commitment was successfully created'}
         format.json { render json: @commitment, status: :created, location: @commitment }
       else
-        format.html { redirect_to new_commitment_path, alert: 'Unprocessable entity'}
+        format.html { redirect_to teams_url(tab: "commitments"), alert: 'Unprocessable entity'}
+        format.json { render json: @commitment.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def nested_create
+    @commitment = Commitment.new(commitment_params)
+    @commitment.user = current_user
+    @commitment.start_date = Date.today
+    @commitment.responsible = User.find(params[:commitment][:responsible_id].to_i)
+    @commitment.target = Target.find(params[:target_id])
+    respond_to do |format|
+      if @commitment.save
+        format.html { redirect_to teams_url(tab: "commitments"), notice: 'Commitment was successfully created'}
+        format.json { render json: @commitment, status: :created, location: @commitment }
+      else
+        format.html { redirect_to teams_url(tab: "commitments"), alert: 'Unprocessable entity'}
         format.json { render json: @commitment.errors, status: :unprocessable_entity }
       end
     end
@@ -23,7 +40,7 @@ class CommitmentsController < ApplicationController
   def complete
     @commitment.update_attribute(:closing_date, Date.today)
     closing_after_complete(@commitment)
-    redirect_to teams_path, notice: 'Commitment completed'
+    redirect_to teams_url(tab: "commitments"), notice: 'Commitment completed'
   end
 
 
@@ -32,7 +49,7 @@ class CommitmentsController < ApplicationController
 
   def update
     @commitment.update(commitment_params)
-    redirect_to teams_path
+    redirect_to teams_url(tab: "commitments")
   end
 
   def destroy
@@ -46,7 +63,7 @@ class CommitmentsController < ApplicationController
   end
 
   def commitment_params
-    params.require(:commitment).permit(:action, :conditions_of_satisfaction, :start_date, :due_date, :target_id, :responsible_id , :deliverable, :critical)
+    params.require(:commitment).permit(:action, :conditions_of_satisfaction, :start_date, :due_date, :target_id, :responsible_id , :deliverable, :critical, :renegotiation_date)
   end
 
 end
