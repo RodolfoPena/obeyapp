@@ -4,9 +4,7 @@ class TeamsController < ApplicationController
 
   def index
     @teams = Team.all
-    @team = Team.new
     @users = User.all
-    @target = Target.new
     @commitment = Commitment.new
     @tab = params[:tab]
   end

@@ -9,6 +9,7 @@ class CommitmentsController < ApplicationController
     @commitment.user = current_user
     @commitment.start_date = Date.today
     @commitment.responsible = User.find(params[:commitment][:responsible_id].to_i)
+    set_status_create(@commitment)
     respond_to do |format|
       if @commitment.save
         format.html { redirect_to teams_url(tab: "commitments"), notice: 'Commitment was successfully created'}
@@ -26,6 +27,7 @@ class CommitmentsController < ApplicationController
     @commitment.start_date = Date.today
     @commitment.responsible = User.find(params[:commitment][:responsible_id].to_i)
     @commitment.target = Target.find(params[:target_id])
+    @commitment.status = ApplicationController.helpers.set_status(@commitment)
     respond_to do |format|
       if @commitment.save
         format.html { redirect_to teams_url(tab: "commitments"), notice: 'Commitment was successfully created'}
@@ -40,6 +42,7 @@ class CommitmentsController < ApplicationController
   def complete
     @commitment.update_attribute(:closing_date, Date.today)
     closing_after_complete(@commitment)
+    set_status(@commitment)
     redirect_to teams_url(tab: "commitments"), notice: 'Commitment completed'
   end
 
@@ -48,6 +51,7 @@ class CommitmentsController < ApplicationController
   end
 
   def update
+    @commitment.status = ApplicationController.helpers.set_status(@commitment)
     @commitment.update(commitment_params)
     redirect_to teams_url(tab: "commitments")
   end

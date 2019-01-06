@@ -38,7 +38,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_update_path_for(resource)
-  teams_path
+    pages_obeya_skills_path
   end
 
   # DELETE /resource
