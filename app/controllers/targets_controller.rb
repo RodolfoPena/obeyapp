@@ -1,7 +1,12 @@
 class TargetsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_target, except: [:create, :nested_create]
+  before_action :set_target, except: [:create, :nested_create, :index]
 
+  def index
+    @target = Target.new
+    @users = User.all
+    @tab = params[:tab]
+  end
 
   def create
     @target = Target.new(target_params)

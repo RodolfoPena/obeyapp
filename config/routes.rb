@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'tasks/index'
   get 'charts/commitment_level'
 
   resources :teams do
@@ -8,8 +9,15 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :tasks, only: [] do
+    member do
+      patch :done
+    end
+  end
+
   resources :targets
   resources :commitments do
+    resources :tasks, only: [:new, :create, :destroy, :update]
     member do
       patch :complete
     end
@@ -18,6 +26,17 @@ Rails.application.routes.draw do
   namespace :charts do
     get 'commitment-level'
   end
+
+  # resources :pages, only: [:index] do
+  #   collection do
+  #     get :prices
+  #     get :evolution
+  #     get :competition
+  #     get :obeya_global
+  #     get :prototipe
+  #     get :obeya_skills
+  #   end
+  # end
 
   get 'pages/index'
   get 'pages/prices'

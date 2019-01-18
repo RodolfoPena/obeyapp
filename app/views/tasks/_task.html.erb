@@ -1,0 +1,16 @@
+<div class="row" id="task-<%= task.id %>">
+    <div class="form-group col">
+        <span class="checklist-reorder">
+            <i class="material-icons">reorder</i>
+        </span>
+        <div class="custom-control custom-checkbox col">
+            <input type="checkbox" class="custom-control-input" id="checklist-item-<%= task.id %>" name="commitment[tasks]" value="<%= task.id %>" <%= "checked" if task.done %>>
+            <label class="custom-control-label" for="checklist-item-<%= task.id %>"></label>
+            <div>
+                <input type="text" placeholder="Checklist item" value="<%= task.name %>" data-filter-by="value" />
+                <div class="checklist-strikethrough"></div>
+                <%= link_to 'delete', commitment_task_path(@commitment.id, task), method: :delete, remote: true %>
+            </div>
+        </div>
+    </div>
+</div>

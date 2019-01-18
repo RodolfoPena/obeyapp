@@ -3,9 +3,9 @@ class TeamsController < ApplicationController
   before_action :set_team, except: [:index, :new, :create]
 
   def index
+    @team = Team.new
     @teams = Team.all
     @users = User.all
-    @commitment = Commitment.new
     @tab = params[:tab]
   end
 

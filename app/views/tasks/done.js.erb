@@ -1,0 +1,2 @@
+$('#progress-values').html("<%= @total_tasks_done_true.round(0) %>" + " / " + "<%= @total_tasks.round(0) %>")
+$('#task-progress').css({"width":"<%= @progress %>%"})

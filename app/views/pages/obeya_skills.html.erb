@@ -40,61 +40,105 @@
               </div>
             </div>
           </div>
-          <%= column_chart  charts_commitment_level_path(current_user), xtitle: 'Weeks', ytitle: 'Commitment Level' %>
-          <br>
-          <div class="row">
-            <div class="card card-kanban w-25">
-              <div class="card-body">
-                <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
+          <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#plan" role="tab" aria-controls="plan" aria-selected="false">Plan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#do" role="tab" aria-controls="do" aria-selected="false">Do</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#check" role="tab" aria-controls="check" aria-selected="false">Check</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#act" role="tab" aria-controls="act" aria-selected="false">Act</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade active show <%= @tab == "plan" ? "active" : "" %>" id="plan" role="tabpanel" aria-labelledby="plan-tab" data-filter-list="content-list-body">
+              <%= line_chart  charts_commitment_level_path(current_user), xtitle: 'Weeks', ytitle: 'Commitment Level', title: 'My'  %>
+              <br>
+              <div class="row">
+                <div class="card card-kanban w-25">
+                  <div class="card-body">
+                    <div class="dropdown card-options">
+                      <button class="btn-options" type="button" id="kanban-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                      </div>
+                    </div>
+                    <div class="card-title">
+                      <a href="#" data-toggle="modal" data-target="#task-modal">
+                        <h6>Planning Level</h6>
+                      </a>
+                    </div>
+                    <ul class="avatars">
+                      <li>
+                        <a href="#" data-toggle="tooltip" title="David">
+                          <h1 style="margin:0px"><%= level_of_planification(current_user)%>%</h1>
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
-                <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal">
-                    <h6>Planning Level</h6>
-                  </a>
+                <div class="card card-kanban w-25 ml-3">
+                  <div class="card-body">
+                    <div class="dropdown card-options">
+                      <button class="btn-options" type="button" id="kanban-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                      </div>
+                    </div>
+                    <div class="card-title">
+                      <a href="#" data-toggle="modal" data-target="#task-modal">
+                        <h6>Commitment Level</h6>
+                      </a>
+                    </div>
+                    <ul class="avatars">
+                      <li>
+                        <a href="#" data-toggle="tooltip" title="David">
+                          <h1 style="margin:0px"><%= level_of_commitment(current_user)%>%</h1>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <ul class="avatars">
-                  <li>
-                    <a href="#" data-toggle="tooltip" title="David">
-                      <h1 style="margin:0px"><%= level_of_planification(current_user)%>%</h1>
-                    </a>
-                  </li>
-                </ul>
+                <div class="card card-kanban w-25 ml-3">
+                  <div class="card-body">
+                    <div class="dropdown card-options">
+                      <button class="btn-options" type="button" id="kanban-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item text-danger" href="#">Archive Card</a>
+                      </div>
+                    </div>
+                    <div class="card-title">
+                      <a href="#" data-toggle="modal" data-target="#task-modal">
+                        <h6>Fullfillment Level</h6>
+                      </a>
+                    </div>
+                    <ul class="avatars">
+                      <li>
+                        <a href="#" data-toggle="tooltip" title="David">
+                          <h1 style="margin:0px"><%= level_of_fullfillment(current_user)%>%</h1>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="card card-kanban w-25 ml-3">
-              <div class="card-body">
-                <div class="dropdown card-options">
-                  <button class="btn-options" type="button" id="kanban-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">more_vert</i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Edit</a>
-                    <a class="dropdown-item text-danger" href="#">Archive Card</a>
-                  </div>
-                </div>
-                <div class="card-title">
-                  <a href="#" data-toggle="modal" data-target="#task-modal">
-                    <h6>Commitment Level</h6>
-                  </a>
-                </div>
-                <ul class="avatars">
-                  <li>
-                    <a href="#" data-toggle="tooltip" title="David">
-                      <h1 style="margin:0px"><%= level_of_commitment(current_user)%>%</h1>
-                    </a>
-                  </li>
-                </ul>
-              </div>
+            <div class="tab-pane fade active show <%= @tab == "do" ? "active" : "" %>" id="do" role="tabpanel" aria-labelledby="do-tab" data-filter-list="content-list-body">
             </div>
           </div>
-
         </div>
       </div>
 

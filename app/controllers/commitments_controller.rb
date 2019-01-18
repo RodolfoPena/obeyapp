@@ -1,15 +1,20 @@
 class CommitmentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_commitment, except: [:create, :nested_create]
+  before_action :set_commitment, except: [:create, :nested_create, :index]
   include CommitmentsHelper
 
+  def index
+    @commitment = Commitment.new
+    @users = User.all
+    @tab = params[:tab]
+  end
 
   def create
     @commitment = Commitment.new(commitment_params)
     @commitment.user = current_user
     @commitment.start_date = Date.today
     @commitment.responsible = User.find(params[:commitment][:responsible_id].to_i)
-    set_status_create(@commitment)
+    @commitment.status = CommitmentsHelper.set_status(@commitment)
     respond_to do |format|
       if @commitment.save
         format.html { redirect_to teams_url(tab: "commitments"), notice: 'Commitment was successfully created'}
@@ -27,7 +32,7 @@ class CommitmentsController < ApplicationController
     @commitment.start_date = Date.today
     @commitment.responsible = User.find(params[:commitment][:responsible_id].to_i)
     @commitment.target = Target.find(params[:target_id])
-    @commitment.status = ApplicationController.helpers.set_status(@commitment)
+    @commitment.status = CommitmentsHelper.set_status(@commitment)
     respond_to do |format|
       if @commitment.save
         format.html { redirect_to teams_url(tab: "commitments"), notice: 'Commitment was successfully created'}
@@ -46,12 +51,15 @@ class CommitmentsController < ApplicationController
     redirect_to teams_url(tab: "commitments"), notice: 'Commitment completed'
   end
 
+  def show
+    @task = Task.new
+  end
 
   def edit
   end
 
   def update
-    @commitment.status = ApplicationController.helpers.set_status(@commitment)
+    @commitment.status = set_status(@commitment)
     @commitment.update(commitment_params)
     redirect_to teams_url(tab: "commitments")
   end
@@ -67,7 +75,7 @@ class CommitmentsController < ApplicationController
   end
 
   def commitment_params
-    params.require(:commitment).permit(:action, :conditions_of_satisfaction, :start_date, :due_date, :target_id, :responsible_id , :deliverable, :critical, :renegotiation_date)
+    params.require(:commitment).permit(:action, :conditions_of_satisfaction, :start_date, :due_date, :target_id, :responsible_id , :deliverable, :critical, :renegotiation_date, documents: [])
   end
 
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_05_023751) do
+ActiveRecord::Schema.define(version: 2019_01_16_000653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,15 @@ ActiveRecord::Schema.define(version: 2019_01_05_023751) do
     t.index ["user_id"], name: "index_targets_on_user_id"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.bigint "commitment_id"
+    t.string "name"
+    t.boolean "done", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commitment_id"], name: "index_tasks_on_commitment_id"
+  end
+
   create_table "teams", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -124,5 +133,6 @@ ActiveRecord::Schema.define(version: 2019_01_05_023751) do
   add_foreign_key "members", "users"
   add_foreign_key "targets", "teams"
   add_foreign_key "targets", "users"
+  add_foreign_key "tasks", "commitments"
   add_foreign_key "teams", "users"
 end

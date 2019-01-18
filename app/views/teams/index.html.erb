@@ -47,10 +47,7 @@
               <a class="nav-link" data-toggle="tab" href="#teams" role="tab" aria-controls="teams" aria-selected="false">Teams</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#targets" role="tab" aria-controls="targets" aria-selected="false">Targets</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#commitments" role="tab" aria-controls="commitments" aria-selected="false">Commitments</a>
+              <a class="nav-link" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
             </li>
           </ul>
           <div class="tab-content">
@@ -119,14 +116,14 @@
               </div>
               <!--end of content-list-body-->
             </div>
-            <div class="tab-pane fade show <%= @tab == "targets" ? "active" : "" %>" id="targets" role="tabpanel" aria-labelledby="targets-tab" data-filter-list="content-list-body">
+            <div class="tab-pane fade show <%= @tab == "members" ? "active" : "" %>" id="members" role="tabpanel" aria-labelledby="members-tab" data-filter-list="content-list-body">
               <div class="content-list">
                 <div class="row content-list-head">
                   <div class="col-auto">
-                    <h3 class="mr-2">Targets</h3>
-                    <%= button_to targets_path, remote: true, class:'btn btn-round', data: {toggle:'modal', target:'#target-add-modal'} do %>
-                    <i class="material-icons">add</i>
-                    <% end %>
+                    <h3>Members</h3>
+                    <button class="btn btn-round" data-toggle="modal" data-target="#user-invite-modal">
+                      <i class="material-icons">add</i>
+                    </button>
                   </div>
                   <form class="col-md-auto">
                     <div class="input-group input-group-round">
@@ -135,201 +132,25 @@
                           <i class="material-icons">filter_list</i>
                         </span>
                       </div>
-                      <input type="search" class="form-control filter-list-input" placeholder="Filter projects" aria-label="Filter Projects" aria-describedby="filter-projects">
+                      <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
                     </div>
                   </form>
                 </div>
                 <!--end of content list head-->
-                Targets where I'm owner
                 <div class="content-list-body row">
-                  <% current_user.targets.each do |target| %>
-                  <div class="col-lg-6">
-                    <div class="card card-project">
-                      <div class="progress">
-                        <div class="progress-bar <%= bg_targets(target) %>" role="progressbar" style="width:<%= target_progress(target) %>%" aria-valuenow="<%= target_progress(target) %>" aria-valuemin="0" aria-valuemax="100"></div>
+                  <div class="col-6">
+                    <% @team.user_members.each do |member| %>
+                    <a class="media media-member" href="#">
+                      <%= image_tag user_avatar(member.id), class:'avatar avatar-lg'%>
+                      <div class="media-body">
+                        <h6 class="mb-0" data-filter-by="text"><%= member.first_name %> <% member.last_name %></h6>
+                        <span data-filter-by="text" class="text-body"><%= member.bio %></span>
                       </div>
-                      <div class="card-body">
-                        <div class="dropdown card-options">
-                          <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#target-edit-modal-#{target.id}"} %>
-                            <div class="dropdown-divider"></div>
-                            <%= link_to 'Delete', target_path(target.id), method: :DELETE, class:'dropdown-item text-danger' %>
-                          </div>
-                        </div>
-                        <div class="card-title">
-                          <a href="<%= target_path(target)%>">
-                            <h5 data-filter-by="text"><%= target.title %></h5>
-                          </a>
-                        </div>
-                        <ul class="avatars">
-                          <li>
-                            <% if target.responsible.nil? %>
-                            <a href="#" data-toggle="tooltip" title="Kenny">
-                              <%= link_to 'Add Responsible', '#', class:'dropdown-item', data: {toggle:'modal', target:"#add-target-responsible-#{target.id}"} %>
-                            </a>
-                            <% else %>
-                            <a href="#" data-toggle="tooltip" title="Kenny">
-                              <%= image_tag user_avatar(target.responsible.id), class:'avatar' %>
-                            </a>
-                            <% end %>
-                          </li>
-                        </ul>
-                        <div class="card-meta d-flex justify-content-between">
-                          <div class="d-flex align-items-center">
-                            <i class="material-icons mr-1">playlist_add_check</i>
-                            <span class="text-small"><%= total_closed_deliverables(target) %>/<%= total_deliverables(target) %></span>
-                          </div>
-                          <span class="text-small" data-filter-by="text">Due <%= (target.due_date - Date.today).to_i %> days</span>
-                        </div>
-                      </div>
-                    </div>
-                    <%= render partial: 'targets/edit', locals: { target: target } %>
-                    <%= render partial: 'targets/add-target-responsible', locals: { target: target } %>
-                  </div>
-                  <% end %>
-                  <%= render 'targets/new' %>
-                </div>
-                Targets Where I'm responsible
-                <div class="content-list-body row">
-                  <% targets_where_current_user_is_responsible(current_user).each do |target| %>
-                  <div class="col-lg-6">
-                    <div class="card card-project">
-                      <div class="progress">
-                        <div class="progress-bar <%= bg_targets(target) %>" role="progressbar" style="width:<%= target_progress(target) %>%" aria-valuenow="<%= target_progress(target) %>" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                      <div class="card-body">
-                        <div class="dropdown card-options">
-                          <button class="btn-options" type="button" id="project-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#target-edit-modal-#{target.id}"} %>
-                            <div class="dropdown-divider"></div>
-                            <%= link_to 'Delete', target_path(target.id), method: :DELETE, class:'dropdown-item text-danger' %>
-                          </div>
-                        </div>
-                        <div class="card-title">
-                          <a href="<%= target_path(target)%>">
-                            <h5 data-filter-by="text"><%= target.title %></h5>
-                          </a>
-                        </div>
-                        <ul class="avatars">
-                          <li>
-                            <% if target.responsible.nil? %>
-                            <a href="#" data-toggle="tooltip" title="Kenny">
-                              <%= link_to 'Add Responsible', '#', class:'dropdown-item', data: {toggle:'modal', target:"#add-target-responsible-#{target.id}"} %>
-                            </a>
-                            <% else %>
-                            <a href="#" data-toggle="tooltip" title="Kenny">
-                              <%= image_tag user_avatar(target.responsible.id), class:'avatar' %>
-                            </a>
-                            <% end %>
-                          </li>
-                        </ul>
-                        <div class="card-meta d-flex justify-content-between">
-                          <div class="d-flex align-items-center">
-                            <i class="material-icons mr-1">playlist_add_check</i>
-                            <span class="text-small"><%= total_closed_deliverables(target) %>/<%= total_deliverables(target) %></span>
-                          </div>
-                          <span class="text-small" data-filter-by="text">Due <%= (target.due_date - Date.today).to_i %> days</span>
-                        </div>
-                      </div>
-                    </div>
-                    <%= render partial: 'targets/edit', locals: { target: target } %>
-                    <%= render partial: 'targets/add-target-responsible', locals: { target: target } %>
-                  </div>
-                  <% end %>
-                  <%= render 'targets/new' %>
-                </div>
-                <!--end of content list body-->
-              </div>
-              <!--end of content list-->
-            </div>
-            <div class="tab-pane fade show <%= @tab == "commitments" ? "active" : "" %>" id="commitments" role="tabpanel" aria-labelledby="commitments-tab" data-filter-list="content-list-body">
-              <div class="content-list">
-                <div class="row content-list-head">
-                  <div class="col-auto">
-                    <h3 class="mr-2">Commitments</h3>
-                    <%= button_to commitments_path, remote: true, class:'btn btn-round', data: {toggle:'modal', target:'#commitment-add-modal'} do %>
-                    <i class="material-icons">add</i>
+                    </a>
                     <% end %>
                   </div>
-                  <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          <i class="material-icons">filter_list</i>
-                        </span>
-                      </div>
-                      <input type="search" class="form-control filter-list-input" placeholder="Filter commitments" aria-label="Filter commitments" aria-describedby="filter-commitments">
-                    </div>
-                  </form>
                 </div>
-
-
-                <div class="card-list-body">
-                  <% current_user.responsible_commitments.each do |commitment| %>
-                  <div class="card card-task">
-                    <div class="progress">
-                      <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="card-body">
-
-                      <div class="card-title">
-                        <a href="#">
-                          <h6 data-filter-by="text"><%= commitment.action %></h6>
-                        </a>
-                        <% if commitment.target.nil? %>
-                        <a href="#">Add a target</a>
-                        <% else %>
-                        <span class="text-small">Target: <%= commitment.target.title %> / <%= distance_of_time_in_words(commitment.due_date, Time.now) if commitment.due_date.nil? == false %> </span>
-                        <% end %>
-                      </div>
-                      <div class="card-meta">
-                        <ul class="avatars">
-                          <li>
-                            <%= link_to('Done', complete_commitment_path(commitment.id), method: :PATCH, class:'btn btn-sm btn-success') if commitment.closing_date.nil? %>
-                            <%= link_to('Renegociate', '#', class:'btn btn-sm btn-primary', data: {toggle:'modal', target:"#commitment-edit-renegociate-date-modal-#{commitment.id}"}) if commitment.renegotiation_date.nil? &&  commitment.closing_date.nil? %>
-                          </li>
-                        </ul>
-                        <ul class="avatars">
-                          <li>
-                            <a href="#" data-toggle="tooltip" title="<%= owner_commitment(commitment.user_id)%>">
-                              <%= image_tag user_avatar(current_user.id), class:'avatar' %>
-                            </a>
-                          </li>
-                        </ul>
-                        <div class="d-flex align-items-center">
-                          <i class="material-icons">playlist_add_check</i>
-                          <span>3/4</span>
-                        </div>
-                        <div class="dropdown card-options">
-                          <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#commitment-edit-modal-#{commitment.id}"} %>
-                            <%= link_to 'Done', complete_commitment_path(commitment.id), method: :PATCH, class:'dropdown-item' %>
-                            <div class="dropdown-divider"></div>
-                            <%= link_to 'Delete', commitment_path(commitment.id), method: :DELETE, class:'dropdown-item text-danger' %>
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <%= render partial: 'commitments/edit', locals: { commitment: commitment } %>
-                    <%= render partial: 'commitments/renegociate', locals: { commitment: commitment } %>
-                  </div>
-                  <% end %>
-                  <%= render 'commitments/new' %>
-                </div>
-
-                <!--end of content list body-->
               </div>
-              <!--end of content list-->
             </div>
           </div>
         </div>

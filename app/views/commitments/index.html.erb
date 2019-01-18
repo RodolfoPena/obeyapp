@@ -1,0 +1,152 @@
+<div class="layout layout-nav-side">
+  <%= render 'shared/navside' %>
+  <div class="main-container">
+    <div class="navbar bg-white breadcrumb-bar">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="<%= teams_path(tab: '#teams') %>">Overview</a>
+          </li>
+          <li class="breadcrumb-item active">
+            <a> Manager</a>
+          </li>
+
+        </ol>
+      </nav>
+
+      <div class="dropdown">
+        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons">settings</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+
+          <a class="dropdown-item" href="#">Account Settings</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="#">Log out</a>
+
+        </div>
+      </div>
+
+    </div>
+    <%= render 'shared/notices'%>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-11 col-xl-10">
+          <div class="page-header mb-4">
+            <div class="media">
+              <%= image_tag user_avatar(current_user.id), class:'avatar avatar-lg mt-1'%>
+
+              <div class="media-body ml-3">
+                <h1 class="mb-0"><%= current_user.first_name %></h1>
+                <p class="lead"><%= current_user.bio %></p>
+              </div>
+            </div>
+          </div>
+          <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#my-commitments" role="tab" aria-controls="#my-commitments" aria-selected="false">My commitments</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#other-commitments" role="tab" aria-controls="#other-commitments" aria-selected="false">Other Commitments</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade active show <%= @tab == "my-commitments" ? "active" : "" %>" id="my-commitments" role="tabpanel" aria-labelledby="my-commitments-tab" data-filter-list="content-list-body">
+              
+              <!--end of content-list-body-->
+            </div>
+            <div class="tab-pane fade show <%= @tab == "other-commitments" ? "active" : "" %>" id="other-commitments" role="tabpanel" aria-labelledby="other-commitments-tab" data-filter-list="content-list-body">
+              <div class="content-list">
+                <div class="row content-list-head">
+                  <div class="col-auto">
+                    <h3 class="mr-2">Commitments</h3>
+                    <%= button_to commitments_path, remote: true, class:'btn btn-round', data: {toggle:'modal', target:'#commitment-add-modal'} do %>
+                    <i class="material-icons">add</i>
+                    <% end %>
+                  </div>
+                  <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">filter_list</i>
+                        </span>
+                      </div>
+                      <input type="search" class="form-control filter-list-input" placeholder="Filter commitments" aria-label="Filter commitments" aria-describedby="filter-commitments">
+                    </div>
+                  </form>
+                </div>
+
+
+                <div class="card-list-body">
+                  <% current_user.responsible_commitments.each do |commitment| %>
+                  <div class="card card-task">
+                    <div class="progress">
+                      <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="card-body">
+
+                      <div class="card-title">
+                        <a href="<%= commitment_path(commitment)%>">
+                          <h6 data-filter-by="text"><%= commitment.action %></h6>
+                        </a>
+                        <% if commitment.target.nil? %>
+                        <a href="#">Add a target</a>
+                        <% else %>
+                        <span class="text-small">Target: <%= commitment.target.title %> / <%= distance_of_time_in_words(commitment.due_date, Time.now) if commitment.due_date.nil? == false %> </span>
+                        <% end %>
+                      </div>
+                      <div class="card-meta">
+                        <ul class="avatars">
+                          <li>
+                            <%= link_to('Done', complete_commitment_path(commitment.id), method: :PATCH, class:'btn btn-sm btn-success') if commitment.closing_date.nil? %>
+                            <%= link_to('Renegociate', '#', class:'btn btn-sm btn-primary', data: {toggle:'modal', target:"#commitment-edit-renegociate-date-modal-#{commitment.id}"}) if commitment.renegotiation_date.nil? &&  commitment.closing_date.nil? %>
+                          </li>
+                        </ul>
+                        <ul class="avatars">
+                          <li>
+                            <a href="#" data-toggle="tooltip" title="<%= owner_commitment(commitment.user_id)%>">
+                              <%= image_tag user_avatar(current_user.id), class:'avatar' %>
+                            </a>
+                          </li>
+                        </ul>
+                        <div class="d-flex align-items-center">
+                          <i class="material-icons">playlist_add_check</i>
+                          <span>3/4</span>
+                        </div>
+                        <div class="dropdown card-options">
+                          <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#commitment-edit-modal-#{commitment.id}"} %>
+                            <%= link_to 'Done', complete_commitment_path(commitment.id), method: :PATCH, class:'dropdown-item' %>
+                            <div class="dropdown-divider"></div>
+                            <%= link_to 'Delete', commitment_path(commitment.id), method: :DELETE, class:'dropdown-item text-danger' %>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <%= render partial: 'commitments/edit', locals: { commitment: commitment } %>
+                    <%= render partial: 'commitments/renegociate', locals: { commitment: commitment } %>
+                  </div>
+                  <% end %>
+                  <%= render 'commitments/new' %>
+                </div>
+
+                <!--end of content list body-->
+              </div>
+              <!--end of content list-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-round btn-floating btn-lg" type="button" data-toggle="collapse" data-target="#floating-chat" aria-expanded="false" aria-controls="sidebar-floating-chat">
+        <i class="material-icons">chat_bubble</i>
+        <i class="material-icons">close</i>
+      </button>
+
+
+    </div>
+  </div>
