@@ -205,20 +205,20 @@
                             <tr>
                               <th scope="row">Backlog</th>
                               <td><%= commitments_by(current_user, 0) %></td>
-                              <td><%= commitments_average_by(current_user.teams, 0) %></td>
-                              <td><%= (commitments_by(current_user, 0).to_f/(commitments_by(current_user, 0) - commitments_average_by(current_user.teams, 0)).to_f).round(4) %> % </td>
+                              <td><%= average_of_commitments_by_team(current_user.teams, 0) %></td>
+                            <td><%= deviation_percentage(commitments_by(current_user, 0), average_of_commitments_by_team(current_user.teams, 0)) %> % </td>
                             </tr>
                             <tr>
                               <th scope="row">Waiting</th>
                               <td><%= commitments_by(current_user, 1) %></td>
-                              <td><%= commitments_average_by(current_user.teams, 1) %></td>
-                              <td><%= (commitments_by(current_user, 1).to_f/(commitments_by(current_user, 1) - commitments_average_by(current_user.teams, 1)).to_f).round(2) %> % </td>
+                              <td><%= average_of_commitments_by_team(current_user.teams, 1) %></td>
+                              <td><%= deviation_percentage(commitments_by(current_user, 1), average_of_commitments_by_team(current_user.teams, 1)) %> % </td>
                             </tr>
                             <tr>
                               <th scope="row">This Week</th>
                               <td><%= commitments_by(current_user, 2) %></td>
-                              <td><%= commitments_average_by(current_user.teams, 2) %></td>
-                              <td><%= (commitments_by(current_user, 2).to_f/(commitments_by(current_user, 2) - commitments_average_by(current_user.teams, 2)).to_f).round(2) %> % </td>
+                              <td><%= average_of_commitments_by_team(current_user.teams, 2) %></td>
+                              <td><%= deviation_percentage(commitments_by(current_user, 2), average_of_commitments_by_team(current_user.teams, 2)) %> % </td>
                             </tr>
                           </tbody>
                         </table>

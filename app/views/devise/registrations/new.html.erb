@@ -5,10 +5,14 @@
                 <div class="text-center">
                     <h1 class="h2">Create account</h1>
                     <p class="lead">Start doing things for free, in an instant</p>
-                    <button class="btn btn-lg btn-block btn-primary">
-                       <%= image_tag 'logo-google.svg', class:'rounded align-top mr-2'%>
-                        Continue with Google
-                    </button>
+                    <%- if devise_mapping.omniauthable? %>
+                      <%- resource_class.omniauth_providers.each do |provider| %>
+                      <%= link_to omniauth_authorize_path(resource_name, provider), class:'btn btn-lg btn-block btn-primary' do %>
+                      <%= image_tag('logo-facebook.svg', style:'width:8%', class:"rounded align-top mr-2")%>
+                      Continue With Facebook
+                      <% end %>
+                      <% end -%>
+                    <% end -%>
                     <hr>
                     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
                       <%= devise_error_messages! %>

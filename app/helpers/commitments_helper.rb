@@ -1,25 +1,39 @@
 module CommitmentsHelper
 
   def commitments_by(object, status)
+    commitments = []
     if object.is_a?(User)
-      object.owner_commitments.where(status: status).count
+      commitments = object.owner_commitments.where(status: status).count
+    elsif object.is_a?(Target)
+      commitments = object.commitments.where(status: status).count
     elsif object.is_a?(Team)
       array = []
       object.targets.each do |target|
         array << target.commitments.where(status: status).count
       end
-      array.inject(0){|sum, x| sum + x }/array.length
-    elsif object.is_a?(Target)
-      object.commitments.where(status: status).count
+      commitments = array.inject(0){|sum, x| sum + x }.to_f/array.length if array.length.zero? == false
     end
+    commitments.zero? == false ? commitments: 0
   end
 
-  def commitments_average_by(object, status)
+  def average_of_commitments_by_team(teams, status)
     array = []
-    object.each do |element|
-      array << commitments_by(element, status)
+    teams.each do |team|
+      array << commitments_by(team, status)
     end
-      (array.inject(0){|sum, x| sum + x }/array.length)
+    array.length.zero? == false ? (array.inject(0){|sum, x| sum + x }/array.length).round(1): 0
+  end
+
+  def deviation_percentage(number_one, number_two)
+    number_one = number_one.to_f
+    number_two = number_two.to_f
+    number_one >= 0 ? ((number_one/(number_one - number_two))*100).round(1) : 0
+  end
+
+  def deviation_in_numbers(number_one, number_two)
+    number_one = number_one.to_f
+    number_two = number_two.to_f
+    (number_one - number_two)
   end
 
   def planned_commitments_chart_by(object, acceptable_planning)
@@ -127,7 +141,11 @@ module CommitmentsHelper
   end
 
   def level_of_fullfillment(user)
+    if user.owner_commitments.count.to_f == 0
+      return 0
+    else
     (((user.owner_commitments.where.not(closing_date: nil).count.to_f)/((user.owner_commitments).count.to_f))*100).round(0)
+  end
   end
 
   # Specials setters
