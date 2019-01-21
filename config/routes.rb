@@ -1,21 +1,18 @@
 Rails.application.routes.draw do
 
+  get 'problems/index'
   get 'tasks/index'
   get 'charts/commitment_level'
 
   resources :teams do
     resources :targets, only: [:create, :edit, :update], controller: 'targets', action: 'nested_create' do
+      resources :problems, only: [:create]
       resources :commitments, only: [:create], controller: 'commitments', action: 'nested_create'
     end
   end
 
-  resources :tasks, only: [] do
-    member do
-      patch :done
-    end
-  end
-
   resources :targets
+
   resources :commitments do
     resources :tasks, only: [:new, :create, :destroy, :update]
     member do
@@ -23,8 +20,18 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :problems
+
+  resources :tasks, only: [] do
+    member do
+      patch :done
+    end
+  end
+
   namespace :charts do
     get 'commitment-level'
+    get 'commitment-status'
+    get 'planning-level'
   end
 
   # resources :pages, only: [:index] do

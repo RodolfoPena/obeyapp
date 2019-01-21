@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_000653) do
+ActiveRecord::Schema.define(version: 2019_01_18_193241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,15 @@ ActiveRecord::Schema.define(version: 2019_01_16_000653) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "causes", force: :cascade do |t|
+    t.string "name"
+    t.boolean "root_cause"
+    t.bigint "problem_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["problem_id"], name: "index_causes_on_problem_id"
   end
 
   create_table "commitments", force: :cascade do |t|
@@ -64,6 +73,20 @@ ActiveRecord::Schema.define(version: 2019_01_16_000653) do
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_members_on_team_id"
     t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
+  create_table "problems", force: :cascade do |t|
+    t.string "title"
+    t.string "type"
+    t.string "status"
+    t.date "status_update"
+    t.bigint "target_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.string "description"
+    t.index ["target_id"], name: "index_problems_on_target_id"
+    t.index ["user_id"], name: "index_problems_on_user_id"
   end
 
   create_table "targets", force: :cascade do |t|
@@ -127,10 +150,13 @@ ActiveRecord::Schema.define(version: 2019_01_16_000653) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "causes", "problems"
   add_foreign_key "commitments", "targets"
   add_foreign_key "commitments", "users"
   add_foreign_key "members", "teams"
   add_foreign_key "members", "users"
+  add_foreign_key "problems", "targets"
+  add_foreign_key "problems", "users"
   add_foreign_key "targets", "teams"
   add_foreign_key "targets", "users"
   add_foreign_key "tasks", "commitments"

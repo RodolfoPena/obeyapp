@@ -52,7 +52,7 @@
           </ul>
           <div class="tab-content">
             <div class="tab-pane fade active show <%= @tab == "my-commitments" ? "active" : "" %>" id="my-commitments" role="tabpanel" aria-labelledby="my-commitments-tab" data-filter-list="content-list-body">
-              
+
               <!--end of content-list-body-->
             </div>
             <div class="tab-pane fade show <%= @tab == "other-commitments" ? "active" : "" %>" id="other-commitments" role="tabpanel" aria-labelledby="other-commitments-tab" data-filter-list="content-list-body">
@@ -80,8 +80,8 @@
                 <div class="card-list-body">
                   <% current_user.responsible_commitments.each do |commitment| %>
                   <div class="card card-task">
-                    <div class="progress">
-                      <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress" >
+                        <div id="task-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
                     </div>
                     <div class="card-body">
 
@@ -111,7 +111,7 @@
                         </ul>
                         <div class="d-flex align-items-center">
                           <i class="material-icons">playlist_add_check</i>
-                          <span>3/4</span>
+                          <span><%= tasks_done(commitment)%>/<%= commitment.tasks.count %></span>
                         </div>
                         <div class="dropdown card-options">
                           <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  type: 
+  status: MyString
+  status_update: 2019-01-18
+  target: one
+
+two:
+  title: MyString
+  type: 
+  status: MyString
+  status_update: 2019-01-18
+  target: two

@@ -1,5 +1,41 @@
 module CommitmentsHelper
 
+  def commitments_by(object, status)
+    if object.is_a?(User)
+      object.owner_commitments.where(status: status).count
+    elsif object.is_a?(Team)
+      array = []
+      object.targets.each do |target|
+        array << target.commitments.where(status: status).count
+      end
+      array.inject(0){|sum, x| sum + x }/array.length
+    elsif object.is_a?(Target)
+      object.commitments.where(status: status).count
+    end
+  end
+
+  def commitments_average_by(object, status)
+    array = []
+    object.each do |element|
+      array << commitments_by(element, status)
+    end
+      (array.inject(0){|sum, x| sum + x }/array.length)
+  end
+
+  def planned_commitments_chart_by(object, acceptable_planning)
+    if object.is_a?(User)
+      object.owner_commitments.where('(due_date - start_date > ? )', acceptable_planning)
+    elsif object.is_a?(Team)
+      array = []
+      object.targets.each do |target|
+        array << target.commitments.where('(due_date - start_date > ? )', acceptable_planning)
+      end
+      array
+    elsif object.is_a?(Target)
+      object.commitments.where('(due_date - start_date > ? )', acceptable_planning)
+    end
+  end
+
 
   def bg_targets(target)
     if target_progress(target) < 30
@@ -68,7 +104,7 @@ module CommitmentsHelper
   end
 
 
-  def commitment_closed_in_term(user)
+  def commitments_closed_in_term(user)
     user.owner_commitments.where(closed_in_term: true)
   end
 

@@ -15,4 +15,6 @@ class User < ApplicationRecord
          :trackable, :confirmable
    has_many :members
    has_many :teams_member, through: :members, source: :team
+   has_many :problems
+
 end

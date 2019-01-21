@@ -1,0 +1,121 @@
+<div class="layout layout-nav-side">
+  <%= render 'shared/navside' %>
+  <div class="main-container">
+    <div class="navbar bg-white breadcrumb-bar">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="<%= teams_path(tab: '#teams') %>">Overview</a>
+          </li>
+          <li class="breadcrumb-item active">
+            <a> Manager</a>
+          </li>
+
+        </ol>
+      </nav>
+
+      <div class="dropdown">
+        <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="material-icons">settings</i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+
+          <a class="dropdown-item" href="#">Account Settings</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="#">Log out</a>
+
+        </div>
+      </div>
+
+    </div>
+    <%= render 'shared/notices'%>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-11 col-xl-10">
+          <div class="page-header mb-4">
+            <div class="media">
+              <%= image_tag user_avatar(current_user.id), class:'avatar avatar-lg mt-1'%>
+
+              <div class="media-body ml-3">
+                <h1 class="mb-0"><%= current_user.first_name %></h1>
+                <p class="lead"><%= current_user.bio %></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-list" data-filter-list="content-list-body">
+            <div class="row content-list-head">
+              <div class="col-auto">
+                <h3>Problems</h3>
+                <%= button_to problems_path, remote: true, class:'btn btn-round ml-3', data: {toggle:'modal', target:'#problem-add-modal'} do %>
+                <i class="material-icons">add</i>
+                <% end %>
+              </div>
+              <form class="col-md-auto">
+                <div class="input-group input-group-round">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">filter_list</i>
+                    </span>
+                  </div>
+                  <input type="search" class="form-control filter-list-input" placeholder="Filter notes" aria-label="Filter notes" aria-describedby="filter-notes">
+                </div>
+              </form>
+            </div>
+            <!--end of content list head-->
+            <div class="content-list-body">
+              <% current_user.problems.each do |problem|%>
+              <div class="card card-note">
+                <div class="card-header">
+                  <div class="media align-items-center">
+                    <%= image_tag user_avatar(current_user.id), class:'avatar', 'data-toggle': 'tooltip', 'data-title': current_user.first_name, 'data-filter-by': 'alt'%>
+                    <div class="media-body">
+                      <h6 class="mb-0" data-filter-by="text"><%= problem.title %></h6>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <span data-filter-by="text"><%= distance_of_time_in_words(problem.created_at, Time.now)%></span>
+                    <div class="ml-1 dropdown card-options">
+                      <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Edit</a>
+                        <a class="dropdown-item text-danger" href="#">Delete</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" data-filter-by="text">
+                  <p><%= problem.description %></p>
+
+                </div>
+              </div>
+              <% end %>
+              <%= render 'problems/new' %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-round btn-floating btn-lg" type="button" data-toggle="collapse" data-target="#floating-chat" aria-expanded="false" aria-controls="sidebar-floating-chat">
+        <i class="material-icons">chat_bubble</i>
+        <i class="material-icons">close</i>
+      </button>
+
+
+    </div>
+  </div>
+
+
+</div>
+</div>
+
+<button class="btn btn-primary btn-round btn-floating btn-lg" type="button" data-toggle="collapse" data-target="#floating-chat" aria-expanded="false" aria-controls="sidebar-floating-chat">
+  <i class="material-icons">chat_bubble</i>
+  <i class="material-icons">close</i>
+</button>
+
+
+</div>
+</div>

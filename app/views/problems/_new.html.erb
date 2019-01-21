@@ -1,0 +1,36 @@
+<%= form_with model: @problem,  remote: true, class: "modal fade", id: "problem-add-modal", tabindex: "-1", role: "dialog", 'aria-labelledby': "problem-add-modal", "aria-hidden": true do |f| %>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Problem</h5>
+                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <!--end of modal head-->
+            <div class="modal-body">
+                <div class="form-group row align-items-center">
+                    <%= f.text_field :title, class:'form-control col', placeholder: 'Problem'%>
+                </div>
+                <div class="form-group row">
+                  <%= f.text_area :description, class:'form-control col', placeholder: 'Body text for problem', rows: '6'%>
+                </div>
+                <div class="form-group row">
+                  <%= f.fields_for :causes do |f| %>
+                  <%= f.text_field :name, class:'form-control col', placeholder: 'Insert possible causes'  %>
+                  <%= render partial: 'problems/cause_fields', locals: {f: f} %>
+                  <% end %>
+                  <%= link_to_add_fields 'New Cause', f, :causes, class: 'btn btn-success' %>
+
+                </div>
+
+            </div>
+            <!--end of modal body-->
+            <div class="modal-footer">
+                <button role="button" class="btn btn-primary" type="submit">
+                    Add Problem
+                </button>
+            </div>
+        </div>
+    </div>
+<% end %>
