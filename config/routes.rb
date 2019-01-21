@@ -34,17 +34,6 @@ Rails.application.routes.draw do
     get 'planning-level'
   end
 
-  # resources :pages, only: [:index] do
-  #   collection do
-  #     get :prices
-  #     get :evolution
-  #     get :competition
-  #     get :obeya_global
-  #     get :prototipe
-  #     get :obeya_skills
-  #   end
-  # end
-
   get 'pages/index'
   get 'pages/prices'
   get 'pages/evolution'
