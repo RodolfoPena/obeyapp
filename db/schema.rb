@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_21_145817) do
+ActiveRecord::Schema.define(version: 2019_01_22_225916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2019_01_21_145817) do
     t.bigint "target_id"
     t.bigint "responsible_id"
     t.boolean "closed_in_term"
-    t.string "status"
+    t.integer "status"
     t.index ["responsible_id"], name: "index_commitments_on_responsible_id"
     t.index ["target_id"], name: "index_commitments_on_target_id"
     t.index ["user_id"], name: "index_commitments_on_user_id"

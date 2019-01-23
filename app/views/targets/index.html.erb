@@ -108,7 +108,7 @@
                             <i class="material-icons mr-1">playlist_add_check</i>
                             <span class="text-small"><%= total_closed_deliverables(target) %>/<%= total_deliverables(target) %></span>
                           </div>
-                          <span class="text-small" data-filter-by="text">Due <%= (target.due_date - Date.today).to_i %> days</span>
+                          <span class="text-small" data-filter-by="text">Due <%= distance_of_time_in_words(target.due_date, Date.today) %></span>
                         </div>
                       </div>
                     </div>

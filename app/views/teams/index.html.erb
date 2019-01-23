@@ -5,28 +5,24 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="<%= teams_path(tab: '#teams') %>">Overview</a>
+            <a href="<%= pages_obeya_skills_path %>">Obeya Skills</a>
           </li>
           <li class="breadcrumb-item active">
-            <a> Manager</a>
+            Teams
           </li>
 
         </ol>
       </nav>
-
       <div class="dropdown">
         <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="material-icons">settings</i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-
-          <a class="dropdown-item" href="#">Account Settings</a>
+          <a class="dropdown-item" href="<%= edit_user_registration_path %>">Account Settings</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item text-danger" href="#">Log out</a>
-
+          <%= link_to 'Log out', destroy_user_session_path, class:'dropdown-item text-danger', method: :DELETE %>
         </div>
       </div>
-
     </div>
     <%= render 'shared/notices'%>
     <div class="container">
@@ -35,7 +31,6 @@
           <div class="page-header mb-4">
             <div class="media">
               <%= image_tag user_avatar(current_user.id), class:'avatar avatar-lg mt-1'%>
-
               <div class="media-body ml-3">
                 <h1 class="mb-0"><%= current_user.first_name %></h1>
                 <p class="lead"><%= current_user.bio %></p>
@@ -44,7 +39,7 @@
           </div>
           <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#teams" role="tab" aria-controls="teams" aria-selected="false">Teams</a>
+              <a class="nav-link" data-toggle="tab" href="#teams" role="tab" aria-controls="teams" aria-selected="false">Teams (<%= current_user.teams.count %>)</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>

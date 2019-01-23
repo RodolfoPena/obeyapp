@@ -1,0 +1,2 @@
+module Teams::TargetsHelper
+end

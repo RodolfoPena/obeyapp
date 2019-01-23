@@ -11,6 +11,7 @@ class TeamsController < ApplicationController
 
   def new
     @team = Team.new
+    @users = User.all
   end
 
   def create
@@ -32,6 +33,7 @@ class TeamsController < ApplicationController
   end
 
   def show
+    @users = User.all
   end
 
   def edit

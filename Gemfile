@@ -26,6 +26,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'chart-js-rails'
 gem 'chartkick', '~> 1.4', '>= 1.4.1'
 gem 'groupdate', '~> 4.1', '>= 4.1.1'
+gem 'whenever', require: false
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password

@@ -14,7 +14,7 @@ class CommitmentsController < ApplicationController
     @commitment.user = current_user
     @commitment.start_date = Date.today
     @commitment.responsible = User.find(params[:commitment][:responsible_id].to_i)
-    @commitment.status = CommitmentsHelper.set_status(@commitment)
+    set_status(@commitment)
     respond_to do |format|
       if @commitment.save
         format.html { redirect_to teams_url(tab: "commitments"), notice: 'Commitment was successfully created'}
@@ -26,29 +26,13 @@ class CommitmentsController < ApplicationController
     end
   end
 
-  def nested_create
-    @commitment = Commitment.new(commitment_params)
-    @commitment.user = current_user
-    @commitment.start_date = Date.today
-    @commitment.responsible = User.find(params[:commitment][:responsible_id].to_i)
-    @commitment.target = Target.find(params[:target_id])
-    @commitment.status = CommitmentsHelper.set_status(@commitment)
-    respond_to do |format|
-      if @commitment.save
-        format.html { redirect_to teams_url(tab: "commitments"), notice: 'Commitment was successfully created'}
-        format.json { render json: @commitment, status: :created, location: @commitment }
-      else
-        format.html { redirect_to teams_url(tab: "commitments"), alert: 'Unprocessable entity'}
-        format.json { render json: @commitment.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+
 
   def complete
     @commitment.update_attribute(:closing_date, Date.today)
-    closing_after_complete(@commitment)
-    set_status(@commitment)
-    redirect_to teams_url(tab: "commitments"), notice: 'Commitment completed'
+    byebug
+    @commitment.update_attribute(:status, return_status(@commitment))
+    redirect_to target_path(@commitment.target_id), notice: 'Commitment completed'
   end
 
   def show

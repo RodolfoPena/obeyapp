@@ -6,7 +6,7 @@ class ChartsController < ApplicationController
   end
 
   def commitment_level
-    render json: commitments_closed_in_term(current_user).group_by_week(:closing_date, week_start: :mon).count
+    render json: array_of_commitments_by(current_user, 6).group_by_week(:closing_date, week_start: :mon).count
   end
 
   def commitment_status

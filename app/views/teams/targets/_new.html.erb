@@ -1,8 +1,8 @@
-<%= form_with model: [team, target], remote:true, class: "modal fade", id: "team-target-edit-modal-#{target.id}", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-target-edit-modal-#{target.id}", 'aria-hidden': "true" do |f| %>
+<%= form_with model: [team, Target.new], remote:true, class: "modal fade", id: "team-target-add-modal", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-target-add-modal", 'aria-hidden': "true" do |f| %>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Target</h5>
+                <h5 class="modal-title">New Target for <%= team.name%></h5>
                 <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
@@ -38,7 +38,7 @@
                         <div class="alert alert-warning text-small" role="alert">
                             <span>You can change due dates at any time.</span>
                         </div>
-                        <hr>
+                        <!-- <hr>
                         <h6>Others</h6>
                         <div class="row">
                             <div class="col">
@@ -59,7 +59,7 @@
                                     <label class="custom-control-label" for="visibility-me">Just me</label>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- start of tabpane responsable -->
                     <div class="tab-pane fade" id="team-target-add-responsable" role="tabpanel" aria-labelledby="team-target-add-responsable-tab">
@@ -75,8 +75,8 @@
                             <div class="form-group-users">
                               <% team.user_members.each do |user| %>
                               <div class="custom-control custom-radio">
-                                <%= f.radio_button :responsible_id , user.id, id:"responsible-target-#{user.id}", class:'custom-control-input' %>
-                                <label class="custom-control-label" for="responsible-target-<%= user.id %>">
+                                <%= f.radio_button :responsible_id , user.id, id:"responsible-team-target-#{user.id}", class:'custom-control-input' %>
+                                <label class="custom-control-label" for="responsible-team-target-<%= user.id %>">
                                   <div class="d-flex align-items-center">
                                     <%= image_tag user_avatar(user.id), class:'avatar mr-2', 'data-title' => user.first_name , 'data-toggle':'tooltip' %>
                                     <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %></span>

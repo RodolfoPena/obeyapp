@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
-  def index
+  def obeya_skills
+    @users = User.all
   end
 end

@@ -20,9 +20,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # GET /resource/edit
-  # def edit
-  #   super
-  # end
+  def edit
+
+    @users = User.all
+  end
 
   def update_resource(resource, params)
     if params[:password].nil?

@@ -4,6 +4,7 @@ class ProblemsController < ApplicationController
 
   def index
     @problem = Problem.new
+    @users = User.all
   end
 
   def create

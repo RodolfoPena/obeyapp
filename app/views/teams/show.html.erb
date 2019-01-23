@@ -67,7 +67,7 @@
                           <i class="material-icons">filter_list</i>
                         </span>
                       </div>
-                      <input type="search" class="form-control filter-list-input" placeholder="Filter projects" aria-label="Filter Projects" aria-describedby="filter-projects">
+                      <input type="search" class="form-control filter-list-input" placeholder="Filter targets" aria-label="Filter Projects" aria-describedby="filter-projects">
                     </div>
                   </form>
                 </div>
@@ -99,7 +99,7 @@
                           <li>
                             <% if target.responsible.nil? %>
                             <a href="#" data-toggle="tooltip" title="Kenny">
-                              <%= link_to 'Add Responsible', '#', class:'dropdown-item', data: {toggle:'modal', target:"#add-target-responsible-#{target.id}"} %>
+                              <%= link_to 'Add Responsible', '#', class:'dropdown-item', data: {toggle:'modal', target:"#add-team-target-responsible-modal-#{target.id}"} %>
                             </a>
                             <% else %>
                             <a href="#" data-toggle="tooltip" title="Kenny">
@@ -118,10 +118,12 @@
                       </div>
                     </div>
                   </div>
-                  <%= render partial: 'targets/edit_nested_target', locals: { team: @team, target: target } %>
+                  <%= render partial: 'teams/targets/edit', locals: { team: @team, target: target } %>
+                  <%= render partial: 'teams/targets/add-target-responsible', locals: { team: @team, target: target } %>
                   <% end %>
                 </div>
-                <%= render partial: 'targets/new_nested_target', locals: { team: @team } %>
+                <%= render partial: 'teams/targets/new', locals: { team: @team } %>
+
 
                 <!--end of content list body-->
               </div>

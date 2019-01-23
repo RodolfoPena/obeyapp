@@ -1,0 +1,44 @@
+<%= form_with model: [team, target], remote:true, class: "modal fade", id: "add-team-target-responsible-modal-#{target.id}", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-target-edit-modal-#{target.id}", 'aria-hidden': "true" do |f| %>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Adding a Target Responsible</h5>
+                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tab-content">
+                        <div class="users-manage" data-filter-list="form-group-users">
+                            <div class="input-group input-group-round">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">filter_list</i>
+                                    </span>
+                                </div>
+                                <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
+                            </div>
+                            <div class="form-group-users">
+                              <% team.user_members.each do |user| %>
+                              <div class="custom-control custom-radio">
+                                <%= f.radio_button :responsible_id , user.id, id:"add-team-target-responsible-#{user.id}", class:'custom-control-input' %>
+                                <label class="custom-control-label" for="add-team-target-responsible-<%= user.id %>">
+                                  <div class="d-flex align-items-center">
+                                    <%= image_tag user_avatar(user.id), class:'avatar mr-2', 'data-title' => user.first_name , 'data-toggle':'tooltip' %>
+                                    <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %></span>
+                                  </div>
+                                </label>
+                              </div>
+                              <% end %>
+                            </div>
+                        </div>
+                    <!-- end of tabpane responsable -->
+                </div>
+            </div>
+            <!--end of modal body-->
+            <div class="modal-footer">
+              <%= f.submit "Edit", class:'btn btn-primary' %>
+            </div>
+        </div>
+    </div>
+<% end %>

@@ -18,61 +18,62 @@
           <i class="material-icons">settings</i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-
-
-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#project-edit-modal">Edit Project</a>
-          <a class="dropdown-item" href="#">Share</a>
-          <a class="dropdown-item" href="#">Mark as Complete</a>
+          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#team-target-edit-modal">Edit Project</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item text-danger" href="#">Archive</a>
-
-
-
-
+          <a class="dropdown-item text-danger" href="#">Delete</a>
         </div>
       </div>
-
     </div>
+
+    <%= render 'shared/notices'%>
     <div class="container-kanban">
       <div class="container-fluid page-header d-flex justify-content-between align-items-start">
         <div>
           <h1><%= @target.title %></h1>
           <p class="lead d-none d-md-block"><%= @target.description %></p>
+          <p>Due <%= distance_of_time_in_words(@target.due_date, Time.now) %></p>
         </div>
-        <div class="d-flex align-items-center">
-          <ul class="avatars">
-            <li>
-              <a href="#" data-toggle="tooltip" data-placement="top" title="<%= find_user(@target.responsible_id) %>">
-                <%= image_tag user_avatar(@target.responsible_id), class:'avatar'%>
-              </a>
-            </li>
-          </ul>
-          <button class="btn btn-round" data-toggle="tooltip" data-placement="top" title="Add User">
-            <i class="material-icons">add</i>
-          </button>
+        <div>
+          <div class="col-auto">
+            <ul class="avatars mt-2">
+              <li>
+                <a href="#" data-toggle="tooltip" data-placement="center" title="<%= find_user(@target.responsible_id) %>">
+                  <%= image_tag user_avatar(@target.responsible_id), class:'avatar'%>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <%= button_to team_target_commitments_path(@target.team_id, @target), remote: true, class:'btn btn-round', data: {toggle:'modal', target:"#commitment-target-add-modal"} do %>
-        <i class="material-icons">add</i>
-        <% end %>
       </div>
+      <div class="container-fluid">
+        <div class="row content-list-head">
+          <div class="col-auto">
+            <h3 class="mr-2">Commitment</h3>
+            <%= button_to team_target_commitments_path(@target.team_id, @target), remote: true, class:'btn btn-round', data: {toggle:'modal', target:"#commitment-target-add-modal"} do %>
+            <i class="material-icons">add</i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
       <div class="kanban-board container-fluid mt-lg-3">
         <!-- Backlog -->
         <div class="kanban-col">
           <div class="card-list">
             <div class="card-list-header">
-              <h6>Backlog (<%= backlog_commitments(@target).count %>)</h6>
+              <h6>Backlog (<%= commitments_by(@target, 0)%>)</h6>
               <div class="dropdown">
                 <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">more_vert</i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" href="#">Edit</a>
+                  <a class="dropdown-item" href="<>">Renegotiate</a>
                   <a class="dropdown-item text-danger" href="#">Archive List</a>
                 </div>
               </div>
             </div>
             <div class="card-list-body">
-              <% (backlog_commitments(@target)).each do |commitment| %>
+              <% (array_of_commitments_by(@target, 0)).each do |commitment| %>
               <div class="card card-kanban">
                 <div class="progress" >
                     <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
@@ -84,8 +85,12 @@
                       <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#">Edit</a>
-                      <a class="dropdown-item text-danger" href="#">Archive Card</a>
+
+                      <%= link_to('Renegociate', '#', class:'btn btn-sm btn-primary', data: {toggle:'modal', target:"#commitment-edit-renegociate-date-modal-#{commitment.id}"}) if commitment.renegotiation_date.nil? &&  commitment.closing_date.nil? %>
+                      <% if closed?(commitment) == false %>
+                      <a class="dropdown-item" href="<%= complete_commitment_path(commitment.id) %>" data-method="PATCH">Complete</a>
+                      <% end %>
+                      <a class="dropdown-item text-danger" href="<%= commitment_path(commitment)%>" data-method="DELETE">Delete</a>
                     </div>
                   </div>
 
@@ -106,7 +111,7 @@
                   <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                       <i class="material-icons">playlist_add_check</i>
-                      <span>-/-</span>
+                      <span><%= tasks_done(commitment) %>/<%= commitment.tasks.count %></span>
                     </div>
                     <% if commitment.due_date.nil? %>
                     <span class="text-small">Unscheduled</span>
@@ -174,7 +179,7 @@
                   <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                       <i class="material-icons">playlist_add_check</i>
-                      <span>-/-</span>
+                      <span><%= tasks_done(commitment) %>/<%= commitment.tasks.count %></span>
                     </div>
                     <% if commitment.due_date.nil? %>
                     <span class="text-small">Unscheduled</span>
@@ -242,7 +247,7 @@
                   <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                       <i class="material-icons">playlist_add_check</i>
-                      <span>-/-</span>
+                      <span><%= tasks_done(commitment) %>/<%= commitment.tasks.count %></span>
                     </div>
                     <% if commitment.due_date.nil? %>
                     <span class="text-small">Unscheduled</span>
@@ -310,7 +315,7 @@
                   <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                       <i class="material-icons">playlist_add_check</i>
-                      <span>-/-</span>
+                      <span><%= tasks_done(commitment) %>/<%= commitment.tasks.count %></span>
                     </div>
                     <% if commitment.due_date.nil? %>
                     <span class="text-small">Unscheduled</span>
@@ -330,11 +335,11 @@
             </div>
           </div>
         </div>
-        <!-- Done -->
+        <!-- Closed Before Deadline -->
         <div class="kanban-col">
           <div class="card-list">
             <div class="card-list-header">
-              <h6>Done (<%= done_commitments(@target).count %>)</h6>
+              <h6>Closed Before Deadline (<%= commitments_by(@target, 5) %>)</h6>
               <div class="dropdown">
                 <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">more_vert</i>
@@ -346,7 +351,7 @@
               </div>
             </div>
             <div class="card-list-body">
-              <% (done_commitments(@target)).each do |commitment| %>
+              <% (array_of_commitments_by(@target, 5)).each do |commitment| %>
               <div class="card card-kanban">
                 <div class="progress" >
                     <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
@@ -368,7 +373,77 @@
                   </div>
                   <ul class="avatars">
                     <li>
-                      <a href="#" data-toggle="tooltip" title="David">
+                      <a href="#" data-toggle="tooltip" title="<%= User.find(commitment.user_id).first_name%>">
+                        <%= image_tag user_avatar(commitment.user_id), class:'avatar'%>
+                      </a>
+                    </li>
+                  </ul>
+
+
+                  <div class="card-meta d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <i class="material-icons">playlist_add_check</i>
+                      <span><%= tasks_done(commitment) %>/<%= commitment.tasks.count %></span>
+                    </div>
+                    <% if commitment.due_date.nil? %>
+                    <span class="text-small">Unscheduled</span>
+                    <% else %>
+                    <span class="text-small">Due <%= distance_of_time_in_words(commitment.due_date, Time.now)%></span>
+                    <% end %>
+
+                  </div>
+
+                </div>
+              </div>
+              <% end %>
+
+              <div class="card-list-footer">
+                <button class="btn btn-link btn-sm text-small">Add task</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Closed After Deadline -->
+        <div class="kanban-col">
+          <div class="card-list">
+            <div class="card-list-header">
+              <h6>Closed After Deadline (<%= commitments_by(@target, 6) %>)</h6>
+              <div class="dropdown">
+                <button class="btn-options" type="button" id="cardlist-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">more_vert</i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="#">Edit</a>
+                  <a class="dropdown-item text-danger" href="#">Archive List</a>
+                </div>
+              </div>
+            </div>
+            <div class="card-list-body">
+              <% (array_of_commitments_by(@target, 6)).each do |commitment| %>
+              <div class="card card-kanban">
+                <div class="progress" >
+                    <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
+                </div>
+                <div class="card-body">
+                  <div class="dropdown card-options">
+                    <button class="btn-options" type="button" id="kanban-dropdown-button-<%= commitment.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a class="dropdown-item" href="#">Renegotiate</a>
+                      <a class="dropdown-item" href="#">Complete</a>
+                      <a class="dropdown-item" href="#">Replicate to Backlog</a>
+                      <a class="dropdown-item text-danger" href="#">Delete</a>
+                    </div>
+                  </div>
+                  <div class="card-title">
+                    <a href="<%= commitment_path(commitment.id) %>">
+                      <h6><%= commitment.action %></h6>
+                    </a>
+                  </div>
+                  <ul class="avatars">
+                    <li>
+                      <a href="#" data-toggle="tooltip" title="<%= user_id_for_commitment(commitment.user_id).first_name%>">
                         <%= image_tag user_avatar(user_id_for_commitment(commitment.user_id)), class:'avatar'%>
                       </a>
                     </li>
@@ -378,7 +453,7 @@
                   <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                       <i class="material-icons">playlist_add_check</i>
-                      <span>-/-</span>
+                      <span><%= tasks_done(commitment) %>/<%= commitment.tasks.count %></span>
                     </div>
                     <% if commitment.due_date.nil? %>
                     <span class="text-small">Unscheduled</span>

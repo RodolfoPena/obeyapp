@@ -1,26 +1,32 @@
 Rails.application.routes.draw do
 
-  get 'problems/index'
-  get 'tasks/index'
-  get 'charts/commitment_level'
+  namespace :pages do
+    get 'obeya_skills'
+    get 'index'
+    get 'prices'
+    get 'evolution'
+    get 'competition'
+    get 'obeya_global'
+    get 'prototipe'
+
+  end
 
   resources :teams do
-    resources :targets, only: [:create, :edit, :update], controller: 'targets', action: 'nested_create' do
-      resources :problems, only: [:create]
-      resources :commitments, only: [:create], controller: 'commitments', action: 'nested_create'
+    resources :targets, only: [:index, :create, :edit, :update, :destroy], controller: 'teams/targets' do
+      resources :problems, only: [:create], controller: 'teams/targets/problems'
+      resources :commitments, only: [:create], controller: 'teams/targets/commitments'
     end
   end
 
   resources :targets
+  resources :problems
 
   resources :commitments do
-    resources :tasks, only: [:new, :create, :destroy, :update]
+    resources :tasks, only: [:new, :create, :destroy, :update], controller: 'commitments/tasks'
     member do
       patch :complete
     end
   end
-
-  resources :problems
 
   resources :tasks, only: [] do
     member do
@@ -33,14 +39,6 @@ Rails.application.routes.draw do
     get 'commitment-status'
     get 'planning-level'
   end
-
-  get 'pages/index'
-  get 'pages/prices'
-  get 'pages/evolution'
-  get 'pages/competition'
-  get 'pages/obeya_global'
-  get 'pages/prototipe'
-  get 'pages/obeya_skills'
 
   devise_for :users, controllers: {
         registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'

@@ -45,7 +45,7 @@
         <div id="submenu-2" class="collapse">
           <ul class="nav nav-small flex-column">
             <li class="nav-item">
-              <a class="nav-link" href="<%= commitments_path(tab: "other-commitments") %>">Commitments</a>
+              <a class="nav-link m-1" href="<%= commitments_path(tab: "other-commitments") %>">Commitments</a>
             </li>
           </ul>
         </div>
@@ -56,7 +56,7 @@
         <div id="submenu-3" class="collapse">
           <ul class="nav nav-small flex-column">
             <li class="nav-item">
-              <a class="nav-link" href="<%= problems_path %>">Problems</a>
+              <a class="nav-link ml-1" href="<%= problems_path %>">Problems</a>
             </li>
           </ul>
         </div>
@@ -67,7 +67,7 @@
         <div id="submenu-4" class="collapse">
           <ul class="nav nav-small flex-column">
             <li class="nav-item">
-              <a class="nav-link" href="components-bootstrap.html">Action Plans</a>
+              <a class="nav-link ml-1" href="components-bootstrap.html">Action Plans</a>
             </li>
 
           </ul>
@@ -104,9 +104,10 @@
           Add New
         </button>
         <div class="dropdown-menu" aria-labelledby="newContentButton">
-          <a class="dropdown-item" href="#">Team</a>
-          <a class="dropdown-item" href="#">Goals</a>
-          <a class="dropdown-item" href="#">Commitments</a>
+          <%= button_to 'Team', new_team_path, remote: true, class:'dropdown-item', data: {toggle:'modal', target:'#team-add-modal'}%>
+          <%= button_to 'Target', targets_path, remote: true, class:'dropdown-item', data: {toggle:'modal', target:'#target-add-modal'} %>
+          <%= button_to 'Commitment', commitments_path, remote: true, class:'dropdown-item', data: {toggle:'modal', target:'#commitment-add-modal'} %>
+          <%= button_to 'Problem', commitments_path, remote: true, class:'dropdown-item', data: {toggle:'modal', target:'#commitment-add-modal'} %>
         </div>
       </div>
     </div>
@@ -125,3 +126,6 @@
     </div>
   </div>
 </div>
+<%= render 'teams/new' %>
+<%= render 'targets/new' %>
+<%= render 'commitments/new' %>
