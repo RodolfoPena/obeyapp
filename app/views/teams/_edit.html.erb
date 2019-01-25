@@ -9,15 +9,15 @@
     </div>
     <ul class="nav nav-tabs nav-fill">
       <li class="nav-item">
-        <a class="nav-link active" id="team-edit-details-tab-<%= team.id %>" data-toggle="tab" href="#team-edit-details-<%= team.id %>" role="tab" aria-controls="team-edit-details" aria-selected="true">Details</a>
+        <a class="nav-link active" id="team-target-edit-details-tab-<%= team.id %>" data-toggle="tab" href="#team-target-edit-details-<%= team.id %>" role="tab" aria-controls="team-target-edit-details-<%= team.id %>" aria-selected="true">Details</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="team-edit-members-tab" data-toggle="tab" href="#team-edit-members-<%= team.id %>" role="tab" aria-controls="team-edit-members" aria-selected="false">Members</a>
+        <a class="nav-link" id="team-target-edit-members-tab-<%= team.id %>" data-toggle="tab" href="#team-target-edit-members-<%= team.id %>" role="tab" aria-controls="team-target-edit-members-<%= team.id %>" aria-selected="false">Members</a>
       </li>
     </ul>
     <div class="modal-body">
       <div class="tab-content">
-        <div class="tab-pane fade show active" id="team-edit-details-<%= team.id %>" role="tabpanel" aria-labelledby="team-edit-details-tab-<%= team.id %>">
+        <div class="tab-pane fade show active" id="team-target-edit-details-<%= team.id %>" role="tabpanel" aria-labelledby="team-target-edit-details-tab-<%= team.id %>">
           <h6>Team details</h6>
           <div class="form-group row align-items-center">
             <label class="col-3">Name</label>
@@ -28,7 +28,7 @@
             <%= f.text_area :description, class: "form-control col", placeholder:"Description", rows:'3', id:"team_description_edit"%>
           </div>
         </div>
-        <div class="tab-pane fade" id="team-edit-members-<%= team.id %>" role="tabpanel" aria-labelledby="team-edit-members-tab-<%= team.id %>">
+        <div class="tab-pane fade" id="team-target-edit-members-<%= team.id %>" role="tabpanel" aria-labelledby="team-target-edit-members-tab-<%= team.id %>">
           <div class="users-manage" data-filter-list="form-group-users">
             <div class="mb-3">
               <ul class="avatars text-center">

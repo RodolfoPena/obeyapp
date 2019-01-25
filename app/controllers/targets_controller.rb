@@ -9,6 +9,7 @@ class TargetsController < ApplicationController
   end
 
   def create
+    byebug
     @target = Target.new(target_params)
     @target.user = current_user
     @target.start_date = Date.today

@@ -134,8 +134,6 @@ ActiveRecord::Schema.define(version: 2019_01_22_225916) do
     t.string "last_name"
     t.string "location"
     t.text "bio"
-    t.boolean "email_confirmed", default: false
-    t.string "confirm_token"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
