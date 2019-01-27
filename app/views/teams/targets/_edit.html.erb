@@ -75,8 +75,8 @@
                             <div class="form-group-users">
                               <% team.user_members.each do |user| %>
                               <div class="custom-control custom-radio">
-                                <%= radio_button_tag('target[responsible_id]', user.id, {checked: target.responsible == user}, {id: "responsible-target-#{user.id}"})%>
-                                <label class="custom-control-label" for="responsible-target-<%= user.id %>">
+                                <%= f.check_box :responsible_id, {checked: (team.user_members.include?(user) && user == target.responsible) ? 'checked': '', class:'custom-control-input', id:"xyteam-responsible-target-#{user.id}"}, user.id, nil %>
+                                <label class="custom-control-label" for="xyteam-responsible-target-<%= user.id %>">
                                   <div class="d-flex align-items-center">
                                     <%= image_tag user_avatar(user.id), class:'avatar mr-2', 'data-title' => user.first_name , 'data-toggle':'tooltip' %>
                                     <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %></span>

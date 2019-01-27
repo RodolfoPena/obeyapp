@@ -29,6 +29,7 @@ class Teams::TargetsController < ApplicationController
   end
 
   def update
+    byebug
     @target.update(target_params)
     redirect_to team_path(@target.team_id, tab: "projects")
   end
