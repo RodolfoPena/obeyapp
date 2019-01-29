@@ -156,10 +156,23 @@ module CommitmentsHelper
       return 0
     else
     (((user.owner_commitments.where.not(closing_date: nil).count.to_f)/((user.owner_commitments).count.to_f))*100).round(0)
-  end
+    end
   end
 
-  # Specials setters
+  def resolution(object)
+    distances = []
+    if object.is_a?(User)
+      object.owner_commitments.each do |commitment|
+        if !last_date(commitment).nil? && closed?(commitment) && (last_date(commitment) > commitment.closing_date)
+          distance = (last_date(commitment).day - commitment.closing_date.day)
+          distances << distance
+        end
+      end
+      distances.inject{|sum, x| sum + x }.to_f/ distances.size
+    end
+  end
+
+  # Set status for commitment
   def set_status(commitment)
     if backlog?(commitment)
       commitment.status = 0
@@ -173,7 +186,7 @@ module CommitmentsHelper
       commitment.status = 4
     elsif closed_before_deadline?(commitment)
       commitment.status = 5
-    elsif closed_after_deadline(commitment)
+    elsif closed_after_deadline?(commitment)
       commitment.status = 6
     else
       commitment.status = nil
@@ -198,8 +211,8 @@ module CommitmentsHelper
     end
   end
 
-  def renegotiated?(commitment)
-    commitment.renegotiation_date.nil? ? false : true
+  def last_date(commitment)
+    commitment.renegotiation_date.nil? ? commitment.due_date : commitment.renegotiation_date
   end
 
   def closed?(commitment)
@@ -207,82 +220,53 @@ module CommitmentsHelper
   end
 
   def backlog?(commitment)
-    (commitment.due_date.nil? || commitment.renegotiation_date.nil?) && (closed?(commitment) == false)
+    last_date(commitment).nil? && !closed?(commitment)
   end
 
   def waiting?(commitment)
-    if closed?(commitment)
-      false
-    else
-      if today?(commitment)
-        false
-      else
-        if renegotiated?(commitment)
-          (this_week?(commitment) == false) ? true : false
-        else
-          (commitment.due_date.nil? == false && this_week?(commitment) == false) ? true : false
-        end
-      end
+    if !closed?(commitment)
+      last_date(commitment) > Date.today.at_end_of_week
     end
   end
 
   def this_week?(commitment)
-    beginning_of_week = Date.today.at_beginning_of_week
-    end_of_week = Date.today.at_end_of_week
-    if closed?(commitment)
-      false
-    else
-      if today?(commitment)
-        false
-      else
-        if renegotiated?(commitment)
-          (commitment.renegotiation_date >= beginning_of_week && commitment.renegotiation_date <= end_of_week) ? true : false
-        else
-          (commitment.due_date >= beginning_of_week && commitment.due_date <= end_of_week) ? true : false
-        end
-      end
+    week_starts = Date.today.at_beginning_of_week
+    week_ends = Date.today.at_end_of_week
+    if !closed?(commitment) && !today?(commitment)
+      last_date(commitment) >= week_starts && last_date(commitment) <= week_ends
     end
   end
 
   def today?(commitment)
     today = Date.today
-    (commitment.due_date == today|| commitment.renegotiation_date == today) ? true : false
+    if !closed?(commitment)
+      last_date(commitment) == today
+    end
   end
 
   def expired?(commitment)
     today = Date.today
     if closed?(commitment)
-      false
-    else
-      if renegotiated?(commitment)
-        (commitment.renegotiation_date > today) ? true : false
-      else
-        (commitment.due_date > today) ? true : false
-      end
+      last_date(commitment) > Date.today
     end
   end
 
   def closed_after_deadline?(commitment)
     if closed?(commitment)
-      if renegotiated?(commitment)
-        (commitment.closing_date > commitment.renegotiation_date) ? true : false
+      if last_date(commitment).nil?
+        false
       else
-        (commitment.closing_date > commitment.due_date) ? true : false
+        commitment.closing_date > last_date(commitment)
       end
-    else
-      false
     end
   end
 
   def closed_before_deadline?(commitment)
     if closed?(commitment)
-      return true if (commitment.renegotiation_date.nil? || commitment.due_date.nil?)
-      if renegotiated?(commitment)
-        (commitment.closing_date <= commitment.renegotiation_date) ? true : false
+      if last_date(commitment).nil?
+        true
       else
-        (commitment.closing_date <= commitment.due_date) ? true : false
+        commitment.closing_date <= last_date(commitment)
       end
-    else
-      false
     end
   end

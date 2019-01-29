@@ -38,7 +38,7 @@
                             <span>You can change due dates at any time.</span>
                         </div>
                         <hr>
-                        <h6>Visibility</h6>
+                        <h6>Options</h6>
                         <div class="row">
                             <div class="col">
                                 <div class="custom-control custom-radio">
@@ -50,12 +50,6 @@
                                 <div class="custom-control custom-radio">
                                     <%= f.check_box :critical, {checked:false, class:'custom-control-input', id:"critical-option"}, nil %>
                                     <label class="custom-control-label" for="critical-option">Critical</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" id="visibility-me" name="visibility" class="custom-control-input">
-                                    <label class="custom-control-label" for="visibility-me">Just me</label>
                                 </div>
                             </div>
                         </div>

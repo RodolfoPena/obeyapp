@@ -10,7 +10,6 @@
           <li class="breadcrumb-item active">
             Teams
           </li>
-
         </ol>
       </nav>
       <div class="dropdown">
@@ -42,7 +41,7 @@
               <a class="nav-link" data-toggle="tab" href="#teams" role="tab" aria-controls="teams" aria-selected="false">Teams (<%= current_user.teams.count %>)</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
+              <a class="nav-link" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Guests (<%= @users.count %>)</a>
             </li>
           </ul>
           <div class="tab-content">
@@ -77,7 +76,7 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                           <%= link_to 'Show', team_path(team), class:'dropdown-item'%>
-                          <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#team-edit-modal-#{team.id}"} %>
+                          <%= link_to 'Edit', '#', class:'dropdown-item', data: {toggle:'modal', target:"#team-edit-modal-#{team.id}"}%>
                           <div class="dropdown-divider"></div>
                           <%= link_to 'Delete', team_path(team.id), class:'dropdown-item text-danger', method: :delete %>
                         </div>
@@ -133,8 +132,8 @@
                 </div>
                 <!--end of content list head-->
                 <div class="content-list-body row">
+                  <% @users.all.each do |member| %>
                   <div class="col-6">
-                    <% @team.user_members.each do |member| %>
                     <a class="media media-member" href="#">
                       <%= image_tag user_avatar(member.id), class:'avatar avatar-lg'%>
                       <div class="media-body">
@@ -142,8 +141,8 @@
                         <span data-filter-by="text" class="text-body"><%= member.bio %></span>
                       </div>
                     </a>
-                    <% end %>
                   </div>
+                  <% end %>
                 </div>
               </div>
             </div>

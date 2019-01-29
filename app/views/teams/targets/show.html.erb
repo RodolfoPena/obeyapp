@@ -1,18 +1,14 @@
 <div class="layout layout-nav-side">
   <%= render 'shared/navside' %>
   <div class="main-container">
-
     <div class="navbar bg-white breadcrumb-bar">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Teams</a>
-          </li>
-          <li class="breadcrumb-item"><a href="<%= team_path(@target.team_id)%>"><%= find_team(@target.team_id).name %></a>
-          </li>
+          <li class="breadcrumb-item"><%= link_to 'Teams', teams_path, class:'breadcrumb-ite' %></li>
+          <li class="breadcrumb-item"><a href="<%= team_path(@target.team_id)%>"><%= find_team(@target.team_id).name %></a></li>
           <li class="breadcrumb-item active" aria-current="page"><%= @target.title %></li>
         </ol>
       </nav>
-
       <div class="dropdown">
         <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="material-icons">settings</i>
@@ -24,7 +20,6 @@
         </div>
       </div>
     </div>
-
     <%= render 'shared/notices'%>
     <div class="container-kanban">
       <div class="container-fluid page-header d-flex justify-content-between align-items-start">
@@ -49,13 +44,12 @@
         <div class="row content-list-head">
           <div class="col-auto">
             <h3 class="mr-2">Commitment</h3>
-            <%= button_to team_target_commitments_path(@target.team_id, @target), remote: true, class:'btn btn-round', data: {toggle:'modal', target:"#commitment-target-add-modal"} do %>
+            <%= button_to team_target_commitments_path(@target.team_id, @target), remote: true, class:'btn btn-round', data: {toggle:'modal', target:"#team-target-commitment-add-modal"} do %>
             <i class="material-icons">add</i>
             <% end %>
           </div>
         </div>
       </div>
-
       <div class="kanban-board container-fluid mt-lg-3">
         <!-- Backlog -->
         <div class="kanban-col">
@@ -76,7 +70,7 @@
               <% (array_of_commitments_by(@target, 0)).each do |commitment| %>
               <div class="card card-kanban">
                 <div class="progress" >
-                    <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
+                  <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
                 </div>
                 <div class="card-body">
 
@@ -95,7 +89,7 @@
                   </div>
 
                   <div class="card-title">
-                    <a href="<%= team_target_commitments_path(@team, Target.find_by(@team.target), commitment.id) %>">
+                    <a href="<%= team_target_commitment_path(@target.team_id, @target, commitment.id) %>">
                       <h6><%= commitment.action %></h6>
                     </a>
                   </div>
@@ -150,7 +144,7 @@
               <% (waiting_commitments(@target)).each do |commitment| %>
               <div class="card card-kanban">
                 <div class="progress" >
-                    <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
+                  <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
                 </div>
                 <div class="card-body">
                   <div class="dropdown card-options">
@@ -218,7 +212,7 @@
               <% (this_week_commitments(@target)).each do |commitment| %>
               <div class="card card-kanban">
                 <div class="progress" >
-                    <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
+                  <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
                 </div>
                 <div class="card-body">
                   <div class="dropdown card-options">
@@ -286,7 +280,7 @@
               <% (today_commitments(@target)).each do |commitment| %>
               <div class="card card-kanban">
                 <div class="progress" >
-                    <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
+                  <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
                 </div>
                 <div class="card-body">
                   <div class="dropdown card-options">
@@ -354,7 +348,7 @@
               <% (array_of_commitments_by(@target, 5)).each do |commitment| %>
               <div class="card card-kanban">
                 <div class="progress" >
-                    <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
+                  <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
                 </div>
                 <div class="card-body">
                   <div class="dropdown card-options">
@@ -422,7 +416,7 @@
               <% (array_of_commitments_by(@target, 6)).each do |commitment| %>
               <div class="card card-kanban">
                 <div class="progress" >
-                    <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
+                  <div id="commitment-progress" class="progress-bar bg-success" style="width: <%= task_progress(commitment)%>%"></div>
                 </div>
                 <div class="card-body">
                   <div class="dropdown card-options">
@@ -474,13 +468,7 @@
           </div>
         </div>
       </div>
-        <%= render partial: 'commitments/new_nested_commitment', locals: { target: @target } %>
+      <%= render partial: 'teams/targets/commitments/new', locals: { target: @target } %>
     </div>
-
-    <button class="btn btn-primary btn-round btn-floating btn-lg" type="button" data-toggle="collapse" data-target="#floating-chat" aria-expanded="false" aria-controls="sidebar-floating-chat">
-      <i class="material-icons">chat_bubble</i>
-      <i class="material-icons">close</i>
-    </button>
-
   </div>
 </div>

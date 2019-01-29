@@ -65,7 +65,7 @@
                           <center><h6>Commitment Level Evolution</h6></center>
                         </a>
                       </div>
-                        <%= area_chart  charts_commitment_level_path, xtitle: 'Weeks', ytitle: 'Commitment Level', title: 'My'  %>
+                        <%= area_chart  charts_commitment_level_path, xtitle: 'Weeks', ytitle: 'Commitment Level' %>
                     </div>
                   </div>
 
@@ -169,13 +169,13 @@
                       </div>
                       <div class="card-title">
                         <a href="#" data-toggle="modal" data-target="#task-modal">
-                          <h6>Colaboration Level</h6>
+                          <h6>Resolution Level</h6>
                         </a>
                       </div>
                       <ul class="avatars">
                         <li>
                           <a href="#" data-toggle="tooltip" title="David">
-                            <h1 style="margin:0px"><%= level_of_fullfillment(current_user)%>%</h1>
+                            <h1 style="margin:0px"><%= resolution(current_user).round(0)%> days</h1>
                           </a>
                         </li>
                       </ul>

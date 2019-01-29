@@ -20,13 +20,12 @@
                             </div>
                             <div class="form-group-users">
                               <% team.user_members.each do |user| %>
-                              <div class="custom-control custom-checkbox">
-
-                                <%= f.check_box :responsible_id, {multiple: true, checked: (target.responsible == (user) ? 'checked' : ''), class:'custom-control-input', id:"xxadd-team-target-responsible-#{user.id}"}, user.id, nil %>
-                                <label class="custom-control-label" for="xxadd-team-target-responsible-<%= user.id %>">
+                              <div class="custom-control custom-radio">
+                                <%= f.radio_button :responsible_id , user.id, id:"add-responsible-team-target-#{user.id}", class:'' %>
+                                <label class="custom-control-label" for="add-team-target-responsible-<%= user.id %>">
                                   <div class="d-flex align-items-center">
                                     <%= image_tag user_avatar(user.id), class:'avatar mr-2', 'data-title' => user.first_name , 'data-toggle':'tooltip' %>
-                                    <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %> (<%= user.id%>)</span>
+                                    <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %> </span>
                                   </div>
                                 </label>
                               </div>

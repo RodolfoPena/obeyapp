@@ -12,9 +12,9 @@ Rails.application.routes.draw do
   end
 
   resources :teams do
-    resources :targets, only: [:index, :create, :edit, :update, :destroy], controller: 'teams/targets' do
+    resources :targets, controller: 'teams/targets' do
       resources :problems, only: [:create], controller: 'teams/targets/problems'
-      resources :commitments, only: [:create], controller: 'teams/targets/commitments'
+      resources :commitments, only: [:create, :show], controller: 'teams/targets/commitments'
     end
   end
 
@@ -44,7 +44,7 @@ Rails.application.routes.draw do
         registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks'
       }
 
-  
+
   root to: 'pages#index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

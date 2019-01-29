@@ -9,10 +9,11 @@ class Teams::Targets::CommitmentsController < ApplicationController
     @commitment.start_date = Date.today
     @commitment.responsible = User.find(params[:commitment][:responsible_id].to_i)
     @commitment.target = Target.find(params[:target_id])
+    byebug
     set_status(@commitment)
     respond_to do |format|
       if @commitment.save
-        format.html { redirect_to target_path(@commitment.target_id), notice: 'Commitment was successfully created'}
+        format.html { redirect_to team_target_path(Team.find(@commitment.target.team_id), @commitment.target, @commitment), notice: 'Commitment was successfully created'}
         format.json { render json: @commitment, status: :created, location: @commitment }
       else
         format.html { redirect_to teams_url(tab: "commitments"), alert: 'Unprocessable entity'}
@@ -29,6 +30,7 @@ class Teams::Targets::CommitmentsController < ApplicationController
   end
 
   def show
+    @users = User.all
     @task = Task.new
   end
 

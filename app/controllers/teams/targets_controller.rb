@@ -25,11 +25,14 @@ class Teams::TargetsController < ApplicationController
     end
   end
 
+  def show
+    @users = User.all
+  end
+
   def edit
   end
 
   def update
-    byebug
     @target.update(target_params)
     redirect_to team_path(@target.team_id, tab: "projects")
   end
@@ -42,7 +45,10 @@ class Teams::TargetsController < ApplicationController
       commitment.destroy
     end
     @target.destroy
-    team_path(@target.team_id, tab: "projects")
+    respond_to do |format|
+      format.html { redirect_to team_path(@target.team_id, tab: "team-targets"), alert: 'Team was successfully destroyed'}
+      format.json { head :no_content }
+    end
   end
 
   private

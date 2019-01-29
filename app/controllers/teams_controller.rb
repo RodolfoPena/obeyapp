@@ -26,13 +26,14 @@ class TeamsController < ApplicationController
         format.html { redirect_to teams_url(tab: "teams"), notice: 'Team was successfully created'}
         format.json { render json: @team, status: :created, location: @team }
       else
-        format.html { redirect_to new_team_path, alert: 'Error terrible compadre!'}
+        format.html { redirect_to teams_url(tab: "teams"), alert: 'Unprocessable entity'}
         format.json { render json: @team.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def show
+    @tab = params[:tab]
     @users = User.all
   end
 
@@ -40,8 +41,8 @@ class TeamsController < ApplicationController
   end
 
   def update
-    users = User.find(params[:team][:member_ids].each(&:to_i))
     @team.user_members.destroy_all
+    users = User.find(params[:team][:member_ids].each(&:to_i))
     users.each do |user|
       @team.user_members << user
     end
@@ -63,16 +64,7 @@ class TeamsController < ApplicationController
     @team = Team.find(params[:id])
   end
 
-  def target_params
-    params.require(:target).permit(:title, :description, :start_date, :due_date, :responsible_id, :team_id)
-  end
-
   def team_params
     params.require(:team).permit(:name, :description)
   end
-
-  # def member_ids
-  #   params.require(:team).permit(member_ids: [])
-  # end
-
 end
