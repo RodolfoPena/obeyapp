@@ -41,8 +41,8 @@
             <div class="form-group-users">
               <% @users.each do |user| %>
               <div class="custom-control custom-checkbox">
-                <%= f.check_box :member_ids, {multiple: true, checked: team.user_members.include?(user) ? 'checked' : '', class:'', id:"team-edit-manage-#{user.id}"}, user.id, nil %>
-                <label class="custom-control-label" for="team-edit-manage-<%= user.id %>">
+                <%= f.check_box :member_ids, {multiple: true, checked: team.user_members.include?(user) ? 'checked' : '', class:'custom-control-input', id:"team-edit-manage-#{team.id}-#{user.id}"}, user.id, nil %>
+                <label class="custom-control-label" for="team-edit-manage-<%= team.id %>-<%= user.id %>">
                   <div class="d-flex align-items-center">
                     <%= image_tag user_avatar(user.id), class:'avatar mr-2' %>
                     <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %></span>

@@ -6,13 +6,11 @@ class ChartsController < ApplicationController
   end
 
   def commitment_level
-    sum = []
-    array_of_commitments = current_user.owner_commitments.where.not(closing_date: nil).map{|x| sum += x}
-    array_of_commitments_by_week = array_of_commitments.group_by_week(:closing_date, week_start: :mon)
-
-    # cumulative_of_commitments = (array_of_commitments.group_by_week(:closing_date, week_start: :mon)).count.map{|x| sum += x}
-
-    render json: array_of_commitments_by_week.count
+    sum = 0
+    x = (current_user.owner_commitments.where(status: [4,5,6]).group_by_week(:closing_date, week_start: :mon).count).map{|k,v| [k, (sum += v)]}.to_h
+    y = (current_user.owner_commitments.where(status: 5).group_by_week(:closing_date, week_start: :mon).count).map{|k,v| [k, (sum += v)]}.to_h
+    z = y.map{|k,v| [k,((x[k]/v.to_f)*100).to_i]}.to_h
+    render json: z
   end
 
   def commitment_status

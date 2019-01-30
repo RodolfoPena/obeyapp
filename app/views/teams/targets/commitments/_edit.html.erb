@@ -1,0 +1,129 @@
+<%= form_with model: [Target.find(commitment.target_id).team, commitment.target, commitment], remote: true, class: "modal fade", id: "team-target-commitment-edit-modal-#{commitment.id}", tabindex: "-1", role: "dialog", 'aria-labelledby': "team-target-commitment-edit-modal-#{commitment.id}", 'aria-hidden': "true" do |f| %>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit commitment</h5>
+                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <!--end of modal head-->
+            <ul class="nav nav-tabs nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link active" id="commitment-add-details-tab-<%= commitment.id %>" data-toggle="tab" href="#commitment-add-details-<%= commitment.id %>" role="tab" aria-controls="commitment-add-details-<%= commitment.id %>" aria-selected="true">Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="commitment-add-responsable-tab-<%= commitment.id %>" data-toggle="tab" href="#commitment-add-responsable-<%= commitment.id %>" role="tab" aria-controls="commitment-add-responsable-<%= commitment.id %>" aria-selected="false">Responsible</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="commitment-add-team-tab-<%= commitment.id %>" data-toggle="tab" href="#commitment-add-team-<%= commitment.id %>" role="tab" aria-controls="commitment-add-team-<%= commitment.id %>" aria-selected="false">Target</a>
+                </li>
+            </ul>
+            <div class="modal-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="commitment-add-details-<%= commitment.id %>" role="tabpanel" aria-labelledby="commitment-add-details-tab-<%= commitment.id %>">
+                        <h6>General Details</h6>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Action</label>
+                            <%= f.text_field :action, class: "form-control col", placeholder:"Action to do"%>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3">Conditions of satisfaction</label>
+                            <%= f.text_area :conditions_of_satisfaction, class: "form-control col", placeholder:"Set conditions of satisfaction", rows:'3'%>
+                        </div>
+                        <hr>
+                        <h6>Timeline</h6>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Due Date</label>
+                            <%= f.date_field :due_date, class: "form-control col", placeholder:"commitment due"%>
+                        </div>
+                        <div class="alert alert-warning text-small" role="alert">
+                            <span>You can change due dates at any time.</span>
+                        </div>
+                        <hr>
+                        <h6>Others</h6>
+                        <div class="row">
+                            <div class="col">
+                              <div class="custom-control custom-radio">
+                                  <%= f.check_box :deliverable, {checked: (commitment.deliverable == true ? true : false ), class:'custom-control-input', id:"deliverable-option-#{commitment.id}"}, nil %>
+                                  <label class="custom-control-label" for="deliverable-option-<%= commitment.id%>">Deliverable</label>
+                              </div>
+                            </div>
+                            <div class="col">
+                              <div class="custom-control custom-radio">
+                                  <%= f.check_box :critical, {checked: (commitment.critical == true ? true : false ), class:'custom-control-input', id:"critical-option-#{commitment.id}"}, nil %>
+                                  <label class="custom-control-label" for="critical-option-<%= commitment.id%>">Critical</label>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- start of tabpane responsable -->
+                      <div class="tab-pane fade" id="commitment-add-responsable-<%= commitment.id %>" role="tabpanel" aria-labelledby="commitment-add-responsable-tab-<%= commitment.id %>">
+                        <div class="users-manage" data-filter-list="form-group-users">
+                            <div class="input-group input-group-round">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">filter_list</i>
+                                    </span>
+                                </div>
+                                <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
+                            </div>
+                            <div class="form-group-users">
+                              <% @users.each do |user| %>
+                              <div class="custom-control custom-radio">
+                                <%= f.radio_button :responsible_id , user.id, id:"responsible-edit-commitment-#{Target.find(commitment.target_id).team_id}-#{commitment.target_id}-#{commitment.id}-#{user.id}", class:'custom-control-input' %>
+                                <label class="custom-control-label" for="responsible-edit-commitment-<%= Target.find(commitment.target_id).team_id%>-<%= commitment.target_id%>-<%= commitment.id %>-<%= user.id %>">
+                                  <div class="d-flex align-items-center">
+                                    <%= image_tag user_avatar(user.id), class:'avatar mr-2', 'data-title' => user.first_name , 'data-toggle':'tooltip' %>
+                                    <span class="h6 mb-0" data-filter-by="text"><%= user.first_name %> <%= user.last_name %></span>
+                                  </div>
+                                </label>
+                              </div>
+                              <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of tabpane responsable -->
+                    <!-- start of tabpane team -->
+                    <div class="tab-pane fade" id="commitment-add-team-<%= commitment.id %>" role="tabpanel" aria-labelledby="commitment-add-team-tab-<%= commitment.id %>">
+                        <div class="users-manage" data-filter-list="form-group-users">
+                            <div class="mb-3">
+                                <ul class="avatars text-center">
+                                  Team:
+                                    <li>
+
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="input-group input-group-round">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">filter_list</i>
+                                    </span>
+                                </div>
+                                <input type="search" class="form-control filter-list-input" placeholder="Filter members" aria-label="Filter Members" aria-describedby="filter-members">
+                            </div>
+                            <div class="form-group-users">
+                              <% current_user.targets.each do |target| %>
+                                <div class="custom-control custom-radio">
+                                  <%= f.radio_button :target_id, target.id, id:"target-edit-commitment-#{target.id}", class:'custom-control-input' %>
+                                    <label class="custom-control-label" for="target-edit-commitment-<%= target.id %>">
+                                        <div class="d-flex align-items-center">
+                                            <span class="h6 mb-0" data-filter-by="text"><%= target.title %></span>
+                                        </div>
+                                    </label>
+                                </div>
+                            <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of tabpane team -->
+                </div>
+            </div>
+            <!--end of modal body-->
+            <div class="modal-footer">
+              <%= f.submit "Update", class:'btn btn-primary' %>
+            </div>
+        </div>
+    </div>
+<% end %>

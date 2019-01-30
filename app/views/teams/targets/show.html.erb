@@ -79,7 +79,7 @@
                       <i class="material-icons">more_vert</i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right">
-
+                      <%= link_to('Edit', '#', class:'btn btn-sm btn-primary', data: {toggle:'modal', target:"#team-target-commitment-edit-modal-#{commitment.id}"})  %>
                       <%= link_to('Renegociate', '#', class:'btn btn-sm btn-primary', data: {toggle:'modal', target:"#commitment-edit-renegociate-date-modal-#{commitment.id}"}) if commitment.renegotiation_date.nil? &&  commitment.closing_date.nil? %>
                       <% if closed?(commitment) == false %>
                       <a class="dropdown-item" href="<%= complete_commitment_path(commitment.id) %>" data-method="PATCH">Complete</a>
@@ -87,7 +87,7 @@
                       <a class="dropdown-item text-danger" href="<%= commitment_path(commitment)%>" data-method="DELETE">Delete</a>
                     </div>
                   </div>
-
+                  <%= render partial: 'teams/targets/commitments/edit', locals: {commitment: commitment} %>
                   <div class="card-title">
                     <a href="<%= team_target_commitment_path(@target.team_id, @target, commitment.id) %>">
                       <h6><%= commitment.action %></h6>
@@ -100,8 +100,6 @@
                       </a>
                     </li>
                   </ul>
-
-
                   <div class="card-meta d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                       <i class="material-icons">playlist_add_check</i>
@@ -112,13 +110,10 @@
                     <% else %>
                     <span class="text-small">Due <%= distance_of_time_in_words(commitment.due_date, Time.now) %></span>
                     <% end %>
-
                   </div>
-
                 </div>
               </div>
               <% end %>
-
               <div class="card-list-footer">
                 <button class="btn btn-link btn-sm text-small">Add task</button>
               </div>

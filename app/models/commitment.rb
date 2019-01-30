@@ -5,4 +5,5 @@ class Commitment < ApplicationRecord
   has_many :tasks
   has_many_attached :documents
   enum status: [:backlog, :waiting, :this_week, :today, :expired, :closed_before_deadline, :closed_after_deadline]
+
 end
