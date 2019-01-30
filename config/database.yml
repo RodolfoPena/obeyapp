@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: obeyapp_production
-  username: obeyapp
-  password: <%= ENV['OBEYAPP_DATABASE_PASSWORD'] %>
+  url: <%= ENV['HEROKU_POSTGRESQL_BROWN_URL'] %>
